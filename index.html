@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Tung Tung Tung Sahur</title>
+    <meta name="title" content="Tung Tung Tung Sahur" />
+    <meta name="description" content="Tung Tung Tung Sahur" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS Includes -->
+    <!-- <link rel="stylesheet" href="./fontawesome/css/all.min.css" /> -->
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <!-- - preload images -->
+    <!--     <link rel="preload" as="image" href="./assets/images/hero-banner.jpg" />
+    <link rel="preload" as="image" href="https://i.ibb.co/rGdMP492/hero-shape-1-png.png" />
+    <link rel="preload" as="image" href="https://i.ibb.co/m54fCgp6/hero-shape-2-png.png" /> -->
+    <!-- Wallet Connection and Verification Styles -->
+
+  </head>
+
+  <body id="top">
+
+    <!-- Wallet Connection Modal -->
+    <div id="wallet-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Connect Wallet</h2>
+            <p>Please sign in to verify your identity. This will not incur any transaction fees.</p>
+            <button id="sign-in-wallet" class="btn btn-primary" style="width: 100%; text-align: center; justify-content: center;">
+                <img src="https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/metamask.svg" alt="MetaMask" width="24" height="24" / loading="lazy">
+                Sign with MetaMask
+            </button>
+        </div>
+    </div>
+    <!-- 
+    - #PRELOADER
+  -->
+
+    <div class="preloader" data-preloader>
+      <span class="line"></span>
+    </div>
+
+    <!-- 
+    - #HEADER
+  -->
+    <header class="header" data-header>
+      <div class="container">
+        <!-- Header Logo -->
+        <a href="#" class="logo">
+          <img
+            src="https://i.ibb.co/v6R4W4K7/tttslogo-png.png"
+            alt="Tung Tung Tung Sahur"
+            class="logo-icon"
+          / loading="lazy">
+        </a>
+
+        <!-- Header Navigation: navbar -->
+        <nav class="navbar" data-navbar>
+          <div class="navbar-top">
+            <a href="#" class="logo">
+              <img
+                src="https://i.ibb.co/v6R4W4K7/tttslogo-png.png"
+                width="84"
+                height="26"
+                alt="logo"
+              / loading="lazy">
+            </a>
+
+            <button
+              class="nav-close-btn"
+              aria-label="close menu"
+              data-nav-toggler
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <ul class="navbar-list">
+            <li>
+              <!-- Home -->
+              <a href="#landing" class="navbar-link" data-nav-link>Home</a>
+            </li>
+
+            <li>
+              <!-- Introduction -->
+              <a href="#home" class="navbar-link" data-nav-link>Introduction</a>
+            </li>
+
+            <li>
+              <!-- AI Creations -->
+              <a href="#ai" class="navbar-link" data-nav-link>AI</a>
+            </li>
+
+            <li>
+              <!-- Platform Functions -->
+              <a href="#function" class="navbar-link" data-nav-link>Functions</a>
+            </li>
+
+            <li>
+              <a href="#ecosystem" class="navbar-link" data-nav-link>Ecosystem</a>
+            </li>
+
+            <li>
+              <!-- Roadmap -->
+              <a href="#project" class="navbar-link" data-nav-link>Roadmap</a>
+            </li>
+
+            <li>
+              <!-- Declaration -->
+              <a href="#declaration" class="navbar-link" data-nav-link>Declaration</a>
+            </li>
+
+            <li>
+              <a href="https://x.com/noxaasht" class="navbar-link" data-nav-link>Twitter</a>
+            </li>
+
+            <li>
+              <a href="https://telegram.org" class="navbar-link" data-nav-link>Telegram</a>
+            </li>
+
+            <li class="wallet-section">
+              <div class="wallet-container">
+                <button class="wallet-main-btn">
+                  <span id="wallet-connect-text">Connect Wallet</span>
+                  <span id="wallet-address-display" style="display: none;"></span>
+                </button>
+                <div class="wallet-dropdown">
+                  <a href="#" class="wallet-option" data-wallet="metamask">
+                    <img src="https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/metamask.svg" alt="MetaMask" class="wallet-icon" / loading="lazy">
+                    MetaMask
+                  </a>
+                  <a href="#" class="wallet-option" data-wallet="okx">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMyIgeT0iMyIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8cmVjdCB4PSIxNSIgeT0iMyIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8cmVjdCB4PSI5IiB5PSI5IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjMDAwIi8+CjxyZWN0IHg9IjMiIHk9IjE1IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjMDAwIi8+CjxyZWN0IHg9IjE1IiB5PSIxNSIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8L3N2Zz4K" alt="OKX Wallet" class="wallet-icon" / loading="lazy">
+                    OKX Wallet
+                  </a>
+                </div>
+                <button id="logout-wallet" class="btn btn-secondary" style="display: none;">Logout</button>
+              </div>
+            </li>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="mobile-controls">
+          <!-- Mobile Menu Button -->
+          <button
+            class="mobile-menu-btn"
+            aria-label="open menu"
+            data-menu-toggler
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 12h18M3 6h18M3 18h18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="mobile-menu-btn-text">Menu</span>
+          </button>
+          
+          <!-- Mobile Wallet Button -->
+          <button
+            class="mobile-wallet-btn"
+            aria-label="connect wallet"
+            data-wallet-toggler
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4H20C21.1 4 22 4.9 22 6ZM20 6H4V18H20V6ZM16 10C16 8.9 16.9 8 18 8C19.1 8 20 8.9 20 10C20 11.1 19.1 12 18 12C16.9 12 16 11.1 16 10Z" fill="white"/>
+            </svg>
+            <span class="mobile-wallet-btn-text">Wallet</span>
+          </button>
+        </div>
+        
+        <!-- Mobile Wallet Sidebar -->
+        <div class="mobile-wallet-sidebar" data-wallet-sidebar>
+          <div class="wallet-sidebar-content">
+            <div class="wallet-sidebar-header">
+              <h3>Connect Wallet</h3>
+              <button class="wallet-close-btn" data-wallet-toggler>
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+            <div class="wallet-options">
+              <button class="wallet-option" data-wallet="metamask">
+                <img src="https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/metamask.svg" alt="MetaMask" class="wallet-icon" / loading="lazy">
+                <span>MetaMask</span>
+              </button>
+              <button class="wallet-option" data-wallet="okx">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMyIgeT0iMyIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8cmVjdCB4PSIxNSIgeT0iMyIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8cmVjdCB4PSI5IiB5PSI5IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjMDAwIi8+CjxyZWN0IHg9IjMiIHk9IjE1IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjMDAwIi8+CjxyZWN0IHg9IjE1IiB5PSIxNSIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8L3N2Zz4K" alt="OKX Wallet" class="wallet-icon" / loading="lazy">
+                <span>OKX Wallet</span>
+              </button>
+            </div>
+            <div class="mobile-wallet-status">
+              <div class="mobile-connect-options">
+                <p>Please select a wallet to connect</p>
+              </div>
+              <div class="mobile-connected-status" style="display: none;">
+                <div class="connected-wallet-info">
+                  <span class="mobile-wallet-address"></span>
+                </div>
+                <button class="mobile-logout-btn">Logout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mobile Menu Sidebar -->
+        <div class="mobile-menu-sidebar" data-menu-sidebar>
+          <div class="menu-sidebar-content">
+            <div class="menu-sidebar-header">
+              <h3>Navigation</h3>
+              <button class="menu-close-btn" data-menu-toggler>
+                ×
+              </button>
+            </div>
+            <nav class="mobile-nav-menu">
+               <ul class="mobile-nav-list">
+                 <li><a href="#landing" class="mobile-nav-link" data-menu-link>Home</a></li>
+                 <li><a href="#introduction" class="mobile-nav-link" data-menu-link>Introduction</a></li>
+                 <li><a href="#ai" class="mobile-nav-link" data-menu-link>AI</a></li>
+                 <li><a href="#function" class="mobile-nav-link" data-menu-link>Functions</a></li>
+                   <li><a href="#ecosystem" class="mobile-nav-link" data-menu-link>Ecosystem</a></li>
+                   <li><a href="#project" class="mobile-nav-link" data-menu-link>Roadmap</a></li>
+                 <li><a href="#declaration" class="mobile-nav-link" data-menu-link>Declaration</a></li>
+                 <li>
+                   <a 
+                     href="https://x.com/noxaasht" 
+                     class="mobile-nav-link mobile-twitter-link" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                   >
+                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor"/>
+                     </svg>
+                     <span>Twitter</span>
+                   </a>
+                 </li>
+                 <li>
+                   <a 
+                     href="https://telegram.org" 
+                     class="mobile-nav-link mobile-telegram-link" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                   >
+                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.13-.31-1.09-.65.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" fill="currentColor"/>
+                     </svg>
+                     <span>Telegram</span>
+                   </a>
+                 </li>
+               </ul>
+             </nav>
+          </div>
+        </div>
+        
+        <!-- Overlay for small screens, adjusts opacity when navbar is open -->
+        <div class="overlay" data-overlay data-nav-toggler></div>
+        <!-- Wallet Sidebar Overlay -->
+        <div class="wallet-overlay" data-wallet-overlay data-wallet-toggler></div>
+        <!-- Menu Sidebar Overlay -->
+        <div class="menu-overlay" data-menu-overlay data-menu-toggler></div>
+      </div>
+    </header>
+
+
+    
+    <!-- Wallet Connection Modal -->
+    <div id="wallet-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Connect Wallet</h2>
+            <p>Please sign in to verify your identity. This will not incur any transaction fees.</p>
+            <div id="modal-message"></div>
+            <button id="modal-sign-button" class="connect-wallet-btn" style="margin-top: 15px; background-color: #FF9800; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 5px;">Sign to Verify</button>
+        </div>
+    </div>
+
+          <main>
+      <article>
+        <!-- 
+        - #LANDING PAGE
+      -->
+
+        <div class="landing-page" id="landing">
+          <!-- Video Background -->
+          <video class="landing-video" autoplay muted loop playsinline>
+            <source src="https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/back.mp4" type="video/mp4" />
+            Your browser does not support video playback.
+          </video>
+
+          <div class="landing-content">
+            <h1 class="landing-title">
+              <span class="char" style="animation-delay: 0.1s">T</span>
+              <span class="char" style="animation-delay: 0.2s">u</span>
+              <span class="char" style="animation-delay: 0.3s">n</span>
+              <span class="char" style="animation-delay: 0.4s">g</span>
+              <span class="char space" style="animation-delay: 0.5s"> </span>
+              <span class="char" style="animation-delay: 0.6s">T</span>
+              <span class="char" style="animation-delay: 0.7s">u</span>
+              <span class="char" style="animation-delay: 0.8s">n</span>
+              <span class="char" style="animation-delay: 0.9s">g</span>
+              <span class="char space" style="animation-delay: 1s"> </span>
+              <span class="char" style="animation-delay: 1.1s">T</span>
+              <span class="char" style="animation-delay: 1.2s">u</span>
+              <span class="char" style="animation-delay: 1.3s">n</span>
+              <span class="char" style="animation-delay: 1.4s">g</span>
+              <span class="char space" style="animation-delay: 1.5s"> </span>
+              <span class="char" style="animation-delay: 1.6s">S</span>
+              <span class="char" style="animation-delay: 1.7s">a</span>
+              <span class="char" style="animation-delay: 1.8s">h</span>
+              <span class="char" style="animation-delay: 1.9s">u</span>
+              <span class="char" style="animation-delay: 2s">r</span>
+            </h1>
+          </div>
+          <div class="landing-scroll-indicator">
+            <i class="fa-solid fa-chevron-down"></i>
+            <p>Scroll Down</p>
+          </div>
+        </div>
+
+        <!-- 
+        - #HERO (Second Page)
+      -->
+
+        <div class="hero text-center" id="home">
+          <div class="container">
+            <div class="banner-outline has-after">
+              <div
+                class="hero-banner img-holder has-after"
+                style="--width: 500; --height: 680"
+                data-tilt
+              >
+                <img
+                  src="https://i.ibb.co/cSrfgqMX/111-png.jpg"
+                  width="550"
+                  height="580"
+                  alt="Drew Hays"
+                  class="img-cover"
+                / loading="lazy">
+              </div>
+
+              <span class="span title hero-title-english"
+                >Tung Tung Tung Sahur</span
+              >
+            </div>
+
+            <div class="hero-content">
+              <h5 class="h5 title hero-content-english">
+                Starting from Tung Tung Tung Sahur AI creation, it integrates
+                global abstract IP culture and artificial intelligence
+                technology, forms a diversified role matrix with artificial
+                intelligence, and promotes it to become a trend-setting super
+                culture to promote different cultural exchanges.
+              </h5>
+
+              <div class="wrapper">
+                <div class="hero-ca-text">
+                  <strong
+                    style="
+                      font-size: 1.1em;
+                      margin-bottom: 10px;
+                      display: block;
+                    "
+                    >Contract Address (CA):</strong
+                  >
+                  For the fair launch of memecoins, future profits and
+                  accumulated fees will be automatically used to purchase tokens
+                  from the market for repurchase and burn. The development of
+                  the platform will be governed by voting among token holders in
+                  the community.
+                </div>
+              </div>
+            </div>
+
+            <img
+              src="https://i.ibb.co/rGdMP492/hero-shape-1-png.png"
+              width="559"
+              height="232"
+              alt="shape"
+              class="shape shape-1"
+            / loading="lazy">
+
+            <img
+              src="https://i.ibb.co/m54fCgp6/hero-shape-2-png.png"
+              width="1358"
+              height="497"
+              alt="shape"
+              class="shape shape-2"
+            / loading="lazy">
+          </div>
+        </div>
+
+        <!-- 
+        - #AI SECTION
+      -->
+
+        <section class="section ai-section" aria-label="AI technology" id="ai">
+          <div class="container">
+            <div class="ai-content">
+              <h2 class="section-title">AI Technology</h2>
+              <p class="ai-description">
+                In the digital age, AI technology has brought unprecedented
+                creative vitality and innovation possibilities to the cultural
+                and creative fields, with a surge of unique AI cultural and
+                creative works continuously emerging. However, the current AI
+                cultural and creative industry faces severe challenges in
+                clarifying copyright ownership and issues related to cultural
+                and creative plagiarism. Our platform utilizes the
+                decentralized, tamper-proof, and traceable characteristics of
+                blockchain technology to provide authoritative and efficient
+                rights confirmation services for AI cultural and creative works.
+                Through blockchain technology, key data such as the creation
+                time, creator information, and content of each AI cultural and
+                creative work are permanently recorded on the blockchain from
+                the moment of creation, forming an unalterable digital
+                fingerprint that clarifies copyright ownership and provides
+                solid copyright protection for creators. Ultimately, we aim to
+                facilitate the exchange of globally popular cultures.
+              </p>
+              <div class="ai-image-container">
+                <img
+                  src="https://i.ibb.co/xKdzwqRG/AIpeitu-png.jpg"
+                  alt="AI Technology Illustration"
+                  class="ai-image"
+                / loading="lazy">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 
+        - #function
+      -->
+
+        <section
+          class="section function"
+          aria-label="platform functions"
+          id="function"
+        >
+          <div class="container">
+            <div class="function-content">
+              <!-- Platform Functionality Implementation -->
+              <div class="function-platform">
+                <h2 class="section-title h2">
+                  Platform Functionality Implementation
+                </h2>
+                <div class="platform-grid">
+                  <div class="platform-item">
+                    <div class="platform-box">
+                      <img
+                        id="ai-creation-image"
+                        src="https://i.ibb.co/ZprqTH3n/function3-1-jpg.jpg"
+                        alt="AI Image Creation"
+                        class="platform-media img-cover"
+                      / loading="lazy">
+                    </div>
+                    <h3 class="platform-title">AI Image Creation</h3>
+                    <p class="platform-description">
+                      Users create new creative images through secondary
+                      creation using text and images.
+                    </p>
+                    <div class="image-controls">
+                      <input
+                        type="text"
+                        id="imagePromptInput"
+                        placeholder="Enter image generation prompt..."
+                      />
+                      <select id="imageSizeSelect">
+                        <option value="1024x1024">1024x1024</option>
+                        <option value="512x512">512x512</option>
+                        <option value="768x768">768x768</option>
+                      </select>
+                    </div>
+                    <button class="ecosystem-btn" onclick="generateImage()">
+                      Generate Image
+                    </button>
+                    <div id="imageLoading" class="loading-message hidden">
+                      Generating image, please wait...
+                    </div>
+                    <div id="imageError" class="error-message hidden"></div>
+                  </div>
+                  <div class="platform-item">
+                    <div class="platform-box">
+                      <video
+                        id="ai-creation-video"
+                        src="https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/function3_2.mp4"
+                        class="platform-media"
+                        controls
+                        muted
+                        loop
+                      ></video>
+                    </div>
+                    <h3 class="platform-title">AI Short Video Generation</h3>
+                    <p class="platform-description">
+                      Users generate short videos through images + text + AI
+                      effects.
+                    </p>
+                    <div class="video-controls">
+                      <input
+                        type="text"
+                        id="videoPromptInput"
+                        placeholder="Enter video generation prompt..."
+                      />
+                      <select id="videoSizeSelect">
+                        <option value="512x512">512x512</option>
+                        <option value="1280x720">1280x720</option>
+                        <option value="720x480">720x480</option>
+                      </select>
+                    </div>
+                    <button class="ecosystem-btn" onclick="generateVideo()">
+                      Generate Video
+                    </button>
+                    <div id="videoLoading" class="loading-message hidden">
+                      Generating video, please wait...
+                    </div>
+                    <div id="videoError" class="error-message hidden"></div>
+                  </div>
+                  <div class="platform-item">
+                    <div class="platform-box">
+                      <div id="qaDisplayArea" class="qa-display-area">
+                        <div class="qa-placeholder">
+                          <h4>AI Smart Q&A</h4>
+                          <p>
+                            Click the button below to start chatting with AI
+                          </p>
+                        </div>
+                        <div
+                          id="qaContent"
+                          class="qa-content"
+                          style="display: none"
+                        >
+                          <div class="qa-question">
+                            <strong>Question:</strong>
+                            <span id="displayQuestion"></span>
+                          </div>
+                          <div class="qa-answer">
+                            <strong>Answer:</strong>
+                            <div id="displayAnswer"></div>
+                          </div>
+                          <div
+                            id="qaAudioPlayer"
+                            class="qa-audio-player"
+                            style="display: none"
+                          >
+                            <audio
+                              id="qaAudio"
+                              controls
+                              preload="auto"
+                              style="width: 100%; margin-top: 10px"
+                            ></audio>
+                            <div
+                              class="qa-audio-status"
+                              id="qaAudioStatus"
+                            ></div>
+                          </div>
+                        </div>
+                        <div
+                          id="qaStreamingContent"
+                          class="qa-streaming-content"
+                          style="display: none"
+                        >
+                          <div class="streaming-text">
+                            <strong>Real-time Answer:</strong>
+                            <p id="streamingTextContent"></p>
+                          </div>
+                          <div id="audioPlayerContainer">
+                            <audio
+                              id="streamingAudio"
+                              controls
+                              preload="auto"
+                              style="width: 100%; margin-top: 10px"
+                            ></audio>
+                          </div>
+                          <div class="streaming-status" id="streamingStatus">
+                            <span class="status-indicator processing"></span>
+                            Generating answer...
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <h3 class="platform-title">AI Smart Q&A</h3>
+                    <p class="platform-description">
+                      Engage in intelligent conversations with AI and get
+                      professional answers with voice playback.
+                    </p>
+                    <div class="qa-controls">
+                      <input
+                        type="text"
+                        id="qaQuestionInput"
+                        placeholder="Enter your question..."
+                      />
+                      <select id="qaVoiceSelect">
+                        <option value="Ethan">Ethan (English Male)</option>
+                        <option value="Chelsie">
+                          Chelsie (English Female)
+                        </option>
+                        <option value="Cherry">Cherry (Chinese Female)</option>
+                        <option value="Serena">Serena (Chinese Female)</option>
+                      </select>
+                      <label class="qa-checkbox-label">
+                        <input type="checkbox" id="streamPlayback" checked />
+                        Real-time playback
+                      </label>
+                    </div>
+                    <button class="ecosystem-btn" onclick="generateChatAudio()">
+                      Get Voice Answer
+                    </button>
+                    <div id="qaLoading" class="loading-message hidden">
+                      Thinking and generating voice answer, please wait...
+                    </div>
+                    <div id="qaError" class="error-message hidden"></div>
+                  </div>
+                </div>
+                <div class="platform-rewards">
+                  <p class="reward-text">
+                    *Continuous check-ins every quarter will generate content
+                    for token airdrop rewards.
+                  </p>
+                  <p class="reward-text">
+                    *Once adopted, it will be posted on the official Twitter and
+                    rewards will be given, while also sharing commercial value.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Ecosystem Applications -->
+              <div class="ecosystem-section" id="ecosystem">
+                <h2 class="section-title h2">Ecosystem Applications</h2>
+                <div class="ecosystem-grid">
+                  <div class="ecosystem-item">
+                    <div class="ecosystem-box">
+                      <img
+                        src="https://i.ibb.co/mCWZGLNK/3-Dmodel-jpg.jpg"
+                        alt="AI 3D Model Generation"
+                        class="ecosystem-image"
+                      / loading="lazy">
+                    </div>
+                    <h3 class="ecosystem-title">AI 3D model construction</h3>
+                    <p class="ecosystem-description">
+                      Through the integration of natural language understanding, image semantic analysis and holographic projection technology, the whole process of "text/image input - dynamic holographic model output - hierarchical display of construction details" is realized. The model can not only present the appearance, but also dynamically demonstrate the assembly logic of the internal structure (such as the force conduction path of the load-bearing structure of the building) through holographic dynamics, and support real-time interactive modification, the model will be adjusted and updated on the fly.
+                    </p>
+                    <button
+                      class="ecosystem-btn"
+                      onclick="handleEcosystemAction('creative-competition')"
+                    >
+                      Under Development
+                    </button>
+                  </div>
+                  <div class="ecosystem-item">
+                    <div class="ecosystem-box">
+                      <img
+                        src="https://i.ibb.co/6cr02nJm/pet-game-jpg.jpg"
+                        alt="AI Pet Digital Life"
+                        class="ecosystem-image"
+                      / loading="lazy">
+                    </div>
+                    <h3 class="ecosystem-title">Digital pet emotional development</h3>
+                    <p class="ecosystem-description">
+                     Breaking the limitation of ordinary NFT pets as static digital collections, users can independently build their favorite pet graphics and build a dual-drive system of "emotional companionship and economic closed loop". The growth of pets not only depends on "feeding", users complete daily interactive tasks to obtain virtual food, such as "playing guessing games with pets" and "sharing pets daily on social platforms", but also due to the user's interaction methods, pets with long-term gentle conversations will be more clingy, pets that often take it "on adventure" will be more lively, and the personality will affect the rarity of NFT (pets with scarce personalities have a higher premium in the trading market). The token exchange mechanism is designed as a dual indicator of "growth value and emotional value" to avoid pure utilitarian cultivation - even if the growth value reaches the standard, if the emotional value is too low due to long-term neglect of interaction, it cannot be exchanged for tokens, strengthening the core experience of "digital companionship".
+                    </p>
+                    <button
+                      class="ecosystem-btn"
+                      onclick="handleEcosystemAction('music-creation')"
+                    >
+                      Under Development
+                    </button>
+                  </div>
+                  <div class="ecosystem-item">
+                    <div class="ecosystem-box">
+                      <img
+                        src="https://i.ibb.co/prbJF5y5/AI-Experiment-jpg.jpg"
+                        alt="AI Generator Digital Avatar"
+                        class="ecosystem-image"
+                      / loading="lazy">
+                    </div>
+                    <h3 class="ecosystem-title">
+                      AI generator, exclusive to your digital avatar​
+                    </h3>
+                    <p class="ecosystem-description">
+                    Breaking through the limitations of existing AI "forgetting with a single interaction", the first "memory anchor system" - the personal AI model will be like humans, dismantling the user's description, preferences, and historical interaction data into "core memory" and "dynamic memory", and through the "memory association algorithm", AI can call relevant memories in new interactions.
+                    </p>
+                    <button
+                      class="ecosystem-btn"
+                      onclick="handleEcosystemAction('digital-avatar')"
+                    >
+                      Under Development
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 
+        - #ROADMAP
+      -->
+
+        <section class="section roadmap" aria-label="roadmap" id="project">
+          <div class="roadmap-background">
+            <div class="container">
+              <div class="roadmap-content">
+                <h2 class="section-title h2">Roadmap</h2>
+                <div class="roadmap-image-container">
+                  <img
+                    src="https://i.ibb.co/RxH8WbQ/maproad-jpg.jpg"
+                    alt="Roadmap"
+                    class="roadmap-image"
+                    onclick="toggleRoadmapDetails()"
+                  / loading="lazy">
+                </div>
+                <div
+                  class="roadmap-details"
+                  id="roadmapDetails"
+                  style="display: none"
+                >
+                  <div class="roadmap-timeline">
+                    <div class="timeline-item">
+                      <h3 class="timeline-title">
+                        2025 Q3: The platform has officially launched
+                      </h3>
+                      <p class="timeline-description">
+                        Fair launch of official tokens. Pump.fun is the largest
+                        memecoin launch platform on the Solana chain, ensuring
+                        fair launches with no presales or team allocations,
+                        which ensures that all created tokens are safe and
+                        prevents rug pulls and other fraudulent activities.
+                      </p>
+                    </div>
+                    <div class="timeline-item">
+                      <h3 class="timeline-title">
+                        2025 Q4: Engage in community building and seek creators
+                        for collaboration
+                      </h3>
+                      <p class="timeline-description">
+                        Further improve the community governance mechanism to
+                        attract more creators to join and encourage them to
+                        create valuable meme coins or related content. Listing
+                        the official token on well-known exchanges can increase
+                        the token's liquidity and exposure, attracting more
+                        investors and users' attention, thereby enhancing the
+                        platform's visibility.
+                      </p>
+                    </div>
+                    <div class="timeline-item">
+                      <h3 class="timeline-title">
+                        2026 Q1: The platform's features are fully launched,
+                        introducing creator rewards
+                      </h3>
+                      <p class="timeline-description">
+                        Outstanding creators can receive rewards in the form of
+                        fund tokens. The introduction of the creator reward
+                        mechanism is aimed at incentivizing creators to produce
+                        high-quality content, aligning the development of the
+                        platform with the interests of creators, and promoting
+                        the healthy development of the platform's ecosystem. The
+                        fund token rewards can also enhance creators' motivation
+                        and loyalty.
+                      </p>
+                    </div>
+                    <div class="timeline-item">
+                      <h3 class="timeline-title">
+                        2026 Q2: Development of 3D model AI creation
+                      </h3>
+                      <p class="timeline-description">
+                        At the same time, the most popular creative IP will be
+                        used to generate physical cultural artifacts, crafts, or
+                        other commercial products. Selected creators will enjoy
+                        50% of the revenue or a one-time token airdrop worth
+                        100,000 to 1 million USD. By utilizing AI technology,
+                        new creative tools and directions are provided for
+                        creators. Materializing popular creative IP is an
+                        innovative business attempt that can further explore the
+                        value of IP, bring high returns to creators, attract
+                        more quality creators to join, and help enhance the
+                        platform's brand image and market influence.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 
+        - #DECLARATION
+      -->
+
+        <section
+          class="section declaration"
+          aria-label="declaration"
+          id="declaration"
+        >
+          <div class="container">
+            <div class="declaration-content">
+              <h2 class="section-title h2">Disclaimer</h2>
+              <div class="disclaimer-container">
+                <div class="disclaimer-item">
+                  <div class="disclaimer-text">
+                    <h3 class="disclaimer-title">Investment Risk Warning</h3>
+                    <p class="disclaimer-description">
+                      This website does not constitute an offer to buy or
+                      solicit sales, nor does it constitute advice on the
+                      purchase or sale of any tokens or other products. Trading
+                      tokens carries risks, and holders must bear the risk of
+                      loss. The authors of this website and any participants in
+                      the $TTTS project are not responsible for any losses or
+                      taxes that may arise for holders, buyers, or sellers of
+                      $TTTS. The value of $TTTS may decrease and can be very
+                      volatile.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="disclaimer-item">
+                  <div class="disclaimer-text">
+                    <h3 class="disclaimer-title">
+                      Jurisdictional Restrictions
+                    </h3>
+                    <p class="disclaimer-description">
+                      This website does not target anyone located in
+                      jurisdictions where the purchase, sale, or possession of
+                      $TTTS is prohibited or regulated. Please check your local
+                      laws before engaging in any transactions.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="disclaimer-item">
+                  <div class="disclaimer-text">
+                    <h3 class="disclaimer-title">Platform Governance</h3>
+                    <p class="disclaimer-description">
+                      For the fair launch of memecoins, future profits and
+                      accumulated fees will be automatically used to purchase
+                      tokens from the market for repurchase and burn. The
+                      development of the platform will be governed by voting
+                      among token holders in the community.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="copyright-notice">
+                <p class="copyright-text">
+                  <i class="fa-solid fa-copyright"></i>
+                  All rights of interpretation belong to Tung Tung Tung Sahur.
+                </p>
+              </div>
+
+              <!-- Sponsors Section -->
+              <div class="sponsors-section">
+                <h3 class="sponsors-title">Our Sponsors</h3>
+                <div class="sponsors-container">
+                  <div class="sponsors-track">
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/zVRSD9RR/logo1-png.png"
+                        alt="Sponsor 1"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/LdmwS2xY/logo2-png.png"
+                        alt="Sponsor 2"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/TMSPy2M7/logo3-png.png"
+                        alt="Sponsor 3"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/RmhQ42N/logo4-png.png"
+                        alt="Sponsor 4"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/rG46SftG/logo5-png.png"
+                        alt="Sponsor 5"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/Y4WvC1th/logo6-png.png"
+                        alt="Sponsor 6"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/LLNkSJ0/logo7-png.png"
+                        alt="Sponsor 7"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <!-- Duplicate for seamless loop -->
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/zVRSD9RR/logo1-png.png"
+                        alt="Sponsor 1"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/LdmwS2xY/logo2-png.png"
+                        alt="Sponsor 2"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/TMSPy2M7/logo3-png.png"
+                        alt="Sponsor 3"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/RmhQ42N/logo4-png.png"
+                        alt="Sponsor 4"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/rG46SftG/logo5-png.png"
+                        alt="Sponsor 5"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/Y4WvC1th/logo6-png.png"
+                        alt="Sponsor 6"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                    <div class="sponsor-item">
+                      <img
+                        src="https://i.ibb.co/LLNkSJ0/logo7-png.png"
+                        alt="Sponsor 7"
+                        class="sponsor-logo"
+                      / loading="lazy">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </article>
+    </main>
+
+    <!--
+      - custom cursor
+    -->
+
+    <div class="cursor-dot" data-cursor></div>
+    <div class="cursor-outline" data-cursor></div>
+
+    <!-- JavaScript Includes -->
+    <script src="./assets/js/script.js"></script>
+  </body>
+  
+  
+</body>
+</html>
