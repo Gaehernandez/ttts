@@ -1,0 +1,44 @@
+# Python files
+*.py
+*.pyc
+__pycache__/
+
+# Backup files
+*.backup
+*_backup_*
+
+# Configuration files
+cdn_config*.json
+url_mapping*.json
+requirements.txt
+
+# Documentation and logs
+*.md
+*.log
+
+# Font directories (not needed for website)
+2/
+3/
+4/
+6/
+7/
+
+# Deployment files
+vercel.json
+netlify.toml
+website_deploy.zip
+
+# Temporary files
+Thumbs.db
+*.tmp
+*.temp
+
+# User input files
+userinput.py
+
+# Fontawesome (if not used)
+fontawesome/
+
+# CSS backups
+assets/css/*.backup*
+assets/images/*.backup* 

@@ -1,0 +1,20 @@
+
+AI 3D 模型生成
+该项目通过融合自然语言理解、图像语义解析与全息投影技术，实现 “文字 / 图片输入 — 动态全息模型输出 — 构造细节分层展示” 的全流程自动化。更关键的是，模型不仅能呈现外观，还能通过全息动态演示内部结构的组装逻辑（如机械零件的咬合关系、建筑承重结构的力传导路径），且支持实时交互修改（用户说 “把齿轮直径放大 20%”，模型会即时调整并同步更新构造演示）。​
+
+
+AI 3D model generation
+Through the integration of natural language understanding, image semantic analysis and holographic projection technology, the project realizes the automation of the whole process of "text/image input - dynamic holographic model output - hierarchical display of construction details". What's more, the model not only presents the appearance, but also dynamically demonstrates the assembly logic of the internal structure (such as the occlusal relationship of mechanical parts, the force conduction path of the building's load-bearing structure) through holographic dynamics, and supports real-time interactive modification (the user says "increase the gear diameter by 20%", and the model will adjust and update the construction demonstration on the fly).
+
+AI 宠物数字生命的情感化资产养成​
+打破普通 NFT 宠物仅作为静态数字藏品的局限，构建 “情感陪伴 + 经济闭环” 双驱动系统。宠物的成长不仅依赖 “投喂”（用户完成每日互动任务获取虚拟食物，如 “和宠物玩猜谜游戏”“分享宠物日常到社交平台”），更会因用户的互动方式产生独特性格（长期温柔对话的宠物会更黏人，常带它 “冒险” 的宠物会更活泼），且性格会影响 NFT 的稀有度（稀缺性格的宠物在交易市场溢价更高）。代币兑换机制设计为 “成长值 + 情感值” 双指标，避免纯功利化养成 —— 即使成长值达标，若长期忽视互动导致情感值过低，也无法兑换代币，强化 “数字陪伴” 的核心体验。​
+
+Emotional asset cultivation of AI pet digital life
+Break the limitations of ordinary NFT pets as static digital collections, and build a dual-drive system of "emotional companionship and economic closed loop". The growth of pets not only depends on "feeding" (users complete daily interactive tasks to obtain virtual food, such as "playing guessing games with pets" and "sharing pets daily on social platforms"), but also has a unique personality due to the user's interaction style (pets with long-term gentle conversations will be more clingy, and pets that often take it "on adventure" will be more lively), and the personality will affect the rarity of NFTs (pets with scarce personalities have a higher premium in the trading market). The token exchange mechanism is designed as a dual indicator of "growth value and emotional value" to avoid pure utilitarian cultivation - even if the growth value reaches the standard, if the emotional value is too low due to long-term neglect of interaction, it cannot be exchanged for tokens, strengthening the core experience of "digital companionship".
+
+AI 生成器，你的数字分身专属 
+突破现有 AI “单次交互即忘” 的局限，首创 “记忆锚点系统”—— 个人 AI 模型会像人类一样，将用户的描述、偏好、历史互动数据拆解为 “核心记忆”（如 “用户对香菜过敏”“每周三晚 8 点有空”）和 “动态记忆”（如 “最近在追科幻剧”“昨天提到想换手机”），并通过 “记忆关联算法” 让 AI 在新交互中调用相关记忆更特别的是，用户可主动 “训练记忆”：上传日记、聊天记录等素材，AI 会自动提炼信息补充到记忆库，实现 “越用越懂你” 的进化。
+
+AI generator, exclusive to your digital avatar​
+
+Breaking through the limitations of existing AI "forgetting with a single interaction", the first "memory anchor system" - the personal AI model will be like humans, dismantling the user's description, preferences, and historical interaction data into "core memory" (such as "the user is allergic to coriander" and "free at 8 p.m. every Wednesday") and "dynamic memory" (such as "recently chasing a science fiction drama" and "yesterday mentioned that I want to change my mobile phone"), and through the "memory association algorithm", the AI can call the relevant memory in the new interaction, and more particularly, the user can actively "train the memory" : Upload diaries, chat logs and other materials, and AI will automatically refine the information and supplement it to the memory bank, realizing the evolution of "the more you use it, the more you understand you".

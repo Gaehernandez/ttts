@@ -1,0 +1,90 @@
+
+项目名称Tung Tung Tung Sahur 
+
+一、介绍（整体一张大背景图（图一）动画立体修饰）
+一、Introduce
+
+以Tung Tung Tung Sahur AI创作为起点整合全球抽象IP文化和人工智能技术，与人工智能形成多元化的角色矩阵，并推动其成为引领潮流的超级文化，促进不同文化交流。
+
+Starting from Tung Tung Tung Sahur AI creation, it integrates global abstract IP culture and artificial intelligence technology, forms a diversified role matrix with artificial intelligence, and promotes it to become a trend-setting super culture to promote different cultural exchanges.
+
+CA：
+*模因币公平发射，未来收益和累积费用自动从市场购买代币回购和销毁，平台发展由社区持有代币者投票治理。
+
+For the fair launch of memecoins, future profits and accumulated fees will be automatically used to purchase tokens from the market for repurchase and burn. The development of the platform will be governed by voting among token holders in the community.
+
+
+二、AI文创平台概述（小字介绍+展示图片）
+二、 Overview of the AI Cultural Creation Platform
+
+在数字化时代，AI技术为文创领域带来了前所未有的创作活力与创新可能，大量独特的AI文创作品不断涌现。然而，当前AI文创产业面临着严峻的版权归属权界定不清以及文创盗用乱象问题。我们的平台利用区块链去中心化、不可篡改、可追溯的特性，为AI文创作品提供权威、高效的确权服务。通过区块链技术，每一件AI文创作品从创作完成的那一刻起，其创作时间、创作者信息、作品内容等关键数据就被永久记录在区块链上，形成不可篡改的数字指纹，明确作品的版权归属，为创作者提供坚实的版权保护。
+
+In the digital age, AI technology has brought unprecedented creative vitality and innovation possibilities to the cultural and creative fields, with a surge of unique AI cultural and creative works continuously emerging. However, the current AI cultural and creative industry faces severe challenges in clarifying copyright ownership and issues related to cultural and creative plagiarism. Our platform utilizes the decentralized, tamper-proof, and traceable characteristics of blockchain technology to provide authoritative and efficient rights confirmation services for AI cultural and creative works. Through blockchain technology, key data such as the creation time, creator information, and content of each AI cultural and creative work are permanently recorded on the blockchain from the moment of creation, forming an unalterable digital fingerprint that clarifies copyright ownership and provides solid copyright protection for creators. Ultimately, we aim to facilitate the exchange of globally popular cultures.
+
+三、平台功能实现（功能开发预热）
+三、Platform functionality implementation
+
+用户通过文字＋图片的形式进行二次创作生成新创意图片（图3-1下方）
+Users create new creative images through secondary creation using text and images.
+
+用户通过图＋文字＋AI特效生成短视频（图3-2下方）
+Users generate short videos through images + text + AI effects.
+
+用户通过图＋文字生成连续漫画（图3-3下方）
+Users generate continuous comics through images + text.
+
+*每季度连续打卡生成内容获得代币空投奖励（整体下方的注释）
+*一经采用会发到官方推特并给予奖励，同时共享商业价值。（整体下方的注释）
+
+*Continuous check-ins every quarter will generate content for token airdrop rewards. 
+*Once adopted, it will be posted on the official Twitter and rewards will be given, while also sharing commercial value.
+
+四、路线图
+四、 roadmap
+
+2025 Q3：平台正式启动
+公平发射官方代币。Pump.fun 是 Solana 链最大 memecoin 发射平台，公平发射，即没有预售，也没有团队分配，确保所有创建的代币都是安全的，防止地毯式骗局等欺诈行为。
+
+2025 Q3：The platform has officially launched.
+
+Fair launch of official tokens. Pump.fun is the largest memecoin launch platform on the Solana chain, ensuring fair launches with no presales or team allocations, which ensures that all created tokens are safe and prevents rug pulls and other fraudulent activities.
+
+2025 Q4：进行社区建设及寻找创作者进行创作
+
+进一步完善社区治理机制，吸引更多创作者加入，鼓励他们创建有价值的模因币或相关内容。将官方代币上线到知名交易所，能增加代币的流通性和曝光度，吸引更多投资者和用户关注，从而提升平台知名度。
+
+2025 Q4：Engage in community building and seek creators for collaboration.
+
+Further improve the community governance mechanism to attract more creators to join and encourage them to create valuable meme coins or related content. Listing the official token on well-known exchanges can increase the token's liquidity and exposure, attracting more investors and users' attention, thereby enhancing the platform's visibility.
+
+2026 Q1：平台功能全面上线推出创作者奖励
+
+创作优秀者可获得基金代币奖励。推出创作者奖励机制，是为了激励创作者产出优质内容，将平台发展与创作者利益相结合，促进平台生态的良性发展，通过基金代币奖励，也能提高创作者的积极性和忠诚度。
+
+2026 Q1：The platform's features are fully launched, introducing creator rewards.
+
+Outstanding creators can receive rewards in the form of fund tokens. The introduction of the creator reward mechanism is aimed at incentivizing creators to produce high-quality content, aligning the development of the platform with the interests of creators, and promoting the healthy development of the platform's ecosystem. The fund token rewards can also enhance creators' motivation and loyalty.
+
+
+2026 Q2：开展 3D 模型 AI 创作开发
+
+同期将热度最高创作 IP 生成实体文玩或工艺品或其它商用，被选取创作者享 50% 收益或一次性代币空投 10-100 万美元。利用 AI 技术为创作者提供新的创作工具和方向。将热门创作 IP 实体化，是一种创新的商业尝试，能进一步挖掘 IP 价值，为创作者带来高额收益，吸引更多优质创作者入驻，同时也有助于提升平台的品牌形象和市场影响力。
+
+2026 Q2:Development of 3D model AI creation
+
+At the same time, the most popular creative IP will be used to generate physical cultural artifacts, crafts, or other commercial products. Selected creators will enjoy 50% of the revenue or a one-time token airdrop worth 100,000 to 1 million USD. By utilizing AI technology, new creative tools and directions are provided for creators. Materializing popular creative IP is an innovative business attempt that can further explore the value of IP, bring high returns to creators, attract more quality creators to join, and help enhance the platform's brand image and market influence.
+
+
+五、免责声明
+Disclaimer:
+
+本网站不构成购买要约或出售招揽，也不构成购买或出售任何代币或其他产品的建议。买卖代币本身就存在风险，持有者必须承担损失风险。本网站的作者和 $TTTS项目的任何参与者均不对 $TTTS的持有者、购买者或卖家可能产生的损失或税款承担任何责任。$TTTS的价值可能会降低，并且可能会非常不稳定。
+
+This website does not constitute an offer to buy or solicit sales, nor does it constitute advice on the purchase or sale of any tokens or other products. Trading tokens carries risks, and holders must bear the risk of loss. The authors of this website and any participants in the $TTTS project are not responsible for any losses or taxes that may arise for holders, buyers, or sellers of $TTTS. The value of $TTTS may decrease and can be very volatile.
+
+本网站不针对位于禁止或监管购买、出售或持有 $TTTS的司法管辖区的任何人。在进行任何加交易之前，请查阅您当地的法律。
+This website does not target anyone located in jurisdictions where the purchase, sale, or possession of $TTTS is prohibited or regulated. Please check your local laws before engaging in any transactions.
+
+所有解释权归Tung Tung Tung Sarhur 所有
+All rights of interpretation belong to Tung Tung Tung Sarhur.
+
