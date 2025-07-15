@@ -64,7 +64,7 @@
     "https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/metamask.svg": "assets/images/metamask.svg"
 };
     
-    // 静默处理图片加载失败
+    // 静默处理图片加载失败 - 优化版本
     function handleImageError(img) {
         const cdnUrl = img.src;
         const localPath = cdnToLocal[cdnUrl];
@@ -73,6 +73,26 @@
             img.dataset.fallbackAttempted = 'true';
             img.src = localPath;
             console.log('图片CDN失败，已切换到本地资源:', localPath);
+        }
+    }
+    
+    // 主动检测图片加载超时
+    function setupImageTimeout(img) {
+        const cdnUrl = img.src;
+        const localPath = cdnToLocal[cdnUrl];
+        
+        if (localPath && cdnUrl.includes('i.ibb.co') && !img.dataset.fallbackAttempted) {
+            // 设置3秒超时，如果图片还没加载完成则切换到本地
+            const timeoutId = setTimeout(() => {
+                if (!img.complete && !img.dataset.fallbackAttempted) {
+                    img.dataset.fallbackAttempted = 'true';
+                    img.src = localPath;
+                    console.log('图片CDN超时，已切换到本地资源:', localPath);
+                }
+            }, 3000);
+            
+            img.addEventListener('load', () => clearTimeout(timeoutId));
+            img.addEventListener('error', () => clearTimeout(timeoutId));
         }
     }
     
@@ -88,7 +108,7 @@
         }
     }
     
-    // 静默处理CSS背景图片失败
+    // 静默处理CSS背景图片失败 - 优化版本
     function checkBackgroundImages() {
         const elements = document.querySelectorAll('*');
         elements.forEach(element => {
@@ -102,16 +122,30 @@
                     const localPath = cdnToLocal[cdnUrl];
                     
                     if (localPath && !element.dataset.backgroundFallbackAttempted) {
-                        // 创建测试图片来检查CDN是否可用
+                        // 创建测试图片来检查CDN是否可用 - 减少超时时间
                         const testImg = new Image();
+                        
+                        // 设置2秒超时，超时自动切换到本地资源
+                        const timeoutId = setTimeout(() => {
+                            if (!element.dataset.backgroundFallbackAttempted) {
+                                element.dataset.backgroundFallbackAttempted = 'true';
+                                element.style.backgroundImage = `url(${localPath})`;
+                                console.log('背景图片CDN超时，已切换到本地资源:', localPath);
+                            }
+                        }, 2000);
+                        
                         testImg.onload = function() {
+                            clearTimeout(timeoutId);
                             // CDN正常，无需操作
                         };
                         testImg.onerror = function() {
+                            clearTimeout(timeoutId);
                             // CDN失败，切换到本地资源
-                            element.dataset.backgroundFallbackAttempted = 'true';
-                            element.style.backgroundImage = `url(${localPath})`;
-                            console.log('背景图片CDN失败，已切换到本地资源:', localPath);
+                            if (!element.dataset.backgroundFallbackAttempted) {
+                                element.dataset.backgroundFallbackAttempted = 'true';
+                                element.style.backgroundImage = `url(${localPath})`;
+                                console.log('背景图片CDN失败，已切换到本地资源:', localPath);
+                            }
                         };
                         testImg.src = cdnUrl;
                     }
@@ -129,7 +163,7 @@
         }
     }, true);
     
-    // 页面加载完成后检查所有资源
+    // 页面加载完成后检查所有资源 - 优化版本
     function initializeFallbackSystem() {
         // 检查现有图片
         const images = document.querySelectorAll('img');
@@ -137,6 +171,9 @@
             img.addEventListener('error', function() {
                 handleImageError(this);
             });
+            
+            // 为CDN图片设置超时检测
+            setupImageTimeout(img);
             
             // 如果图片已经加载失败，立即处理
             if (!img.complete || img.naturalWidth === 0) {
@@ -152,13 +189,27 @@
             });
         });
         
-        // 检查背景图片
-        setTimeout(checkBackgroundImages, 500);
+        // 检查背景图片 - 缩短延迟时间
+        setTimeout(checkBackgroundImages, 200);
+        
+        // 定期重新检查失败的资源
+        setInterval(() => {
+            const newImages = document.querySelectorAll('img[src*="i.ibb.co"]:not([data-fallback-attempted])');
+            newImages.forEach(img => {
+                setupImageTimeout(img);
+            });
+        }, 1000);
     }
     
-    // 当DOM加载完成时初始化
+    // 当DOM加载完成时初始化 - 优化版本，更早启动
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initializeFallbackSystem);
+        // 提前启动基础检测
+        document.addEventListener('readystatechange', function() {
+            if (document.readyState === 'interactive') {
+                setTimeout(initializeFallbackSystem, 100);
+            }
+        });
     } else {
         initializeFallbackSystem();
     }
@@ -172,6 +223,7 @@
                         node.addEventListener('error', function() {
                             handleImageError(this);
                         });
+                        setupImageTimeout(node);
                     } else if (node.tagName === 'VIDEO') {
                         node.addEventListener('error', function() {
                             handleVideoError(this);
@@ -186,6 +238,7 @@
                         img.addEventListener('error', function() {
                             handleImageError(this);
                         });
+                        setupImageTimeout(img);
                     });
                     
                     childVideos.forEach(video => {
