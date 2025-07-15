@@ -1263,9 +1263,34 @@ body.nav-active {
 
 .header .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* 恢复原来的布局 */
   align-items: center;
   position: relative;
+}
+
+/* Personal Dashboard 独立样式 - 强制定位 */
+.personal-dashboard-link {
+  font-size: 1.8rem;
+  font-weight: var(--weight-medium);
+  color: var(--text-white);
+  text-decoration: none;
+  transition: var(--transition-1);
+  position: absolute;
+  left: 120px; /* logo宽度后立即开始 */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.personal-dashboard-link:hover {
+  color: var(--text-light-gray);
+}
+
+/* 在移动端隐藏独立的Personal Dashboard，使用菜单中的 */
+@media (max-width: 768px) {
+  .personal-dashboard-link {
+    display: none;
+  }
 }
 
 .navbar {
@@ -1279,7 +1304,6 @@ body.nav-active {
   display: flex;
   gap: 30px;
   align-items: center;
-  margin-left: -50px;
 }
 
 .navbar-link {
