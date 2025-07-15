@@ -2213,7 +2213,7 @@ body.nav-active {
 }
 
 .disclaimer-title {
-  color: #000000; /* 改为黑色 */
+  color: #ffffff; /* 修复为白色以提高可读性 */
   font-size: 1.6rem; /* 放大字体 */
   font-weight: 600;
   margin-bottom: 15px;
@@ -2221,7 +2221,7 @@ body.nav-active {
 }
 
 .disclaimer-description {
-  color: #000000; /* 改为黑色 */
+  color: #ffffff; /* 修复为白色以提高可读性 */
   font-size: 1.1rem; /* 放大字体 */
   line-height: 1.6;
   text-align: justify;
@@ -2238,7 +2238,7 @@ body.nav-active {
 }
 
 .copyright-text {
-  color: #000000; /* 改为黑色 */
+  color: #ffffff; /* 修复为白色以提高可读性 */
   font-size: 1.1rem; /* 放大字体 */
   font-weight: 500;
   display: flex;
