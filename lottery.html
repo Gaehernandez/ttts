@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTTS 宇宙盲盒 | 探索无限可能</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0a0a2e 0%, #16213e 50%, #1a1a3a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 星空背景动画 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 主容器 */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 头部导航 */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff, #00ffaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #b3b3ff;
+            opacity: 0.9;
+        }
+
+        /* 游戏区域容器 */
+        .game-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* 游戏卡片 */
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .cosmic-box::before {
+            background-image: url('assets/images/lotterys/cosmic_surprise_box.jpg');
+        }
+
+        .moon-treasure::before {
+            background-image: url('assets/images/lotterys/moon_treasure_dig.jpg');
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .game-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            background: linear-gradient(45deg, #00d4ff, #00ffaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .game-description {
+            color: #cccccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .cost-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cost-amount {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ffaa00;
+            margin-bottom: 5px;
+        }
+
+        .cost-label {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        /* 奖励列表 */
+        .rewards-list {
+            margin-bottom: 20px;
+        }
+
+        .reward-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .reward-item:last-child {
+            border-bottom: none;
+        }
+
+        .reward-name {
+            color: #ffffff;
+        }
+
+        .reward-value {
+            color: #00ffaa;
+            font-weight: bold;
+        }
+
+        /* 游戏按钮 */
+        .play-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #00d4ff, #0066ff);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .play-button:hover {
+            background: linear-gradient(45deg, #00ffaa, #00d4ff);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .play-button:active {
+            transform: scale(0.95);
+        }
+
+        /* 排行榜区域 */
+        .leaderboard-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .leaderboard-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('assets/images/lotterys/leaderboard.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .leaderboard-title {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, #ffaa00, #ff6600);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .leaderboard-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, #00d4ff, #0066ff);
+            border-color: #00d4ff;
+        }
+
+        .leaderboard-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .rank {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .rank.top1 { background: linear-gradient(45deg, #ffd700, #ffaa00); color: #000; }
+        .rank.top2 { background: linear-gradient(45deg, #c0c0c0, #999999); color: #000; }
+        .rank.top3 { background: linear-gradient(45deg, #cd7f32, #8b4513); color: #fff; }
+        .rank.other { background: rgba(255, 255, 255, 0.2); color: #fff; }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .player-address {
+            font-size: 0.8rem;
+            color: #999;
+            font-family: monospace;
+        }
+
+        .player-score {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #00ffaa;
+        }
+
+        /* 底部信息 */
+        .footer-info {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            text-align: center;
+            color: #cccccc;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .game-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .game-card, .leaderboard-section {
+                padding: 20px;
+            }
+            
+            .leaderboard-tabs {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #00d4ff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 弹窗样式 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a3a, #2a2a5a);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+
+        .modal-close {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #ff6b6b;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <img src="assets/images/tttslogo.png" alt="TTTS Logo" class="logo">
+            <h1 class="title">宇宙盲盒探险</h1>
+            <p class="subtitle">探索无限可能，发现宇宙宝藏</p>
+        </header>
+
+        <!-- 游戏区域 -->
+        <div class="game-container">
+            <!-- 宇宙趣味盲盒 -->
+            <div class="game-card cosmic-box">
+                <h2 class="game-title">🎁 宇宙趣味盲盒</h2>
+                <p class="game-description">开启神秘的宇宙盲盒，获得珍贵的星际资源和惊喜奖励！每个盲盒都蕴含着无限可能。</p>
+                
+                <div class="cost-info">
+                    <div class="cost-amount">100 积分</div>
+                    <div class="cost-label">单次消耗</div>
+                </div>
+
+                <div class="rewards-list">
+                    <div class="reward-item">
+                        <span class="reward-name">🌟 流行碎片</span>
+                        <span class="reward-value">30积分</span>
+                    </div>
+                    <div class="reward-item">
+                        <span class="reward-name">🌍 行星微光</span>
+                        <span class="reward-value">80积分</span>
+                    </div>
+                    <div class="reward-item">
+                        <span class="reward-name">⭐ 恒星能量</span>
+                        <span class="reward-value">160积分</span>
+                    </div>
+                    <div class="reward-item">
+                        <span class="reward-name">🌌 星系核心</span>
+                        <span class="reward-value">320积分</span>
+                    </div>
+                    <div class="reward-item">
+                        <span class="reward-name">🌠 宇宙奇点</span>
+                        <span class="reward-value">1000积分</span>
+                    </div>
+                    <div class="reward-item">
+                        <span class="reward-name">🍀 幸运之神</span>
+                        <span class="reward-value">0.05-100 SOL</span>
+                    </div>
+                </div>
+
+                <button class="play-button" onclick="openCosmicBox()">
+                    开启盲盒
+                </button>
+            </div>
+
+            <!-- 探月挖宝 -->
+            <div class="game-card moon-treasure">
+                <h2 class="game-title">🚀 探月挖宝</h2>
+                <p class="game-description">加入全民宇航员探月挖宝行动！投入SOL参与挖宝，有机会获得丰厚的SOL奖励回报。</p>
+                
+                <div class="cost-info">
+                    <div class="cost-amount">0.02 SOL + 50积分</div>
+                    <div class="cost-label">单次投入（50积分作为探月补给）</div>
+                </div>
+
+                <div class="rewards-list">
+                    <div class="reward-item">
+                        <span class="reward-name">📊 奖池分配</span>
+                        <span class="reward-value">80% 用户分红</span>
+                    </div>
+                    <div class="reward-item">
+                        <span class="reward-name">🎯 中奖概率</span>
+                        <span class="reward-value">随机10%用户</span>
+                    </div>
+                    <div class="reward-item">
+                        <span class="reward-name">🏗️ 社区建设</span>
+                        <span class="reward-value">20% 项目发展</span>
+                    </div>
+                    <div class="reward-item">
+                        <span class="reward-name">⏰ 开奖时间</span>
+                        <span class="reward-value">实时开奖</span>
+                    </div>
+                </div>
+
+                <button class="play-button" onclick="startMoonTreasure()">
+                    开始挖宝
+                </button>
+            </div>
+        </div>
+
+        <!-- 排行榜 -->
+        <div class="leaderboard-section">
+            <h2 class="leaderboard-title">🏆 探险家排行榜</h2>
+            
+            <div class="leaderboard-tabs">
+                <button class="tab-button active" onclick="switchTab('cosmic')">盲盒达人</button>
+                <button class="tab-button" onclick="switchTab('moon')">挖宝英雄</button>
+                <button class="tab-button" onclick="switchTab('total')">总积分榜</button>
+            </div>
+
+            <div class="leaderboard-list" id="leaderboard-list">
+                <!-- 排行榜数据将通过JavaScript动态加载 -->
+                <div class="leaderboard-item">
+                    <div class="rank top1">1</div>
+                    <div class="player-info">
+                        <div class="player-name">宇宙探险家001</div>
+                        <div class="player-address">8K3r...9mLp</div>
+                    </div>
+                    <div class="player-score">15,420 积分</div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="rank top2">2</div>
+                    <div class="player-info">
+                        <div class="player-name">星际旅行者</div>
+                        <div class="player-address">9xM4...3nQs</div>
+                    </div>
+                    <div class="player-score">12,850 积分</div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="rank top3">3</div>
+                    <div class="player-info">
+                        <div class="player-name">月球挖掘员</div>
+                        <div class="player-address">7Gf2...8kVr</div>
+                    </div>
+                    <div class="player-score">9,650 积分</div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="rank other">4</div>
+                    <div class="player-info">
+                        <div class="player-name">幸运盒子王</div>
+                        <div class="player-address">5Hj9...4pTw</div>
+                    </div>
+                    <div class="player-score">8,320 积分</div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="rank other">5</div>
+                    <div class="player-info">
+                        <div class="player-name">宇宙收集家</div>
+                        <div class="player-address">3Kl7...6mEq</div>
+                    </div>
+                    <div class="player-score">7,890 积分</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部信息 -->
+        <div class="footer-info">
+            <p><strong>⚠️ 重要提示：</strong></p>
+            <p>🎯 奖励实时发放，缓冲不会超过12小时</p>
+            <p>📞 若奖励未收到请联系官方推特或电报群进行兑换</p>
+            <p>🏆 获奖者名单和奖励详情将在官方推特或电报群公布</p>
+            <p>⭐ 探索宇宙，发现无限可能！</p>
+        </div>
+    </div>
+
+    <!-- 结果弹窗 -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-title" id="modalTitle">恭喜您！</div>
+            <div id="modalContent">获得了神秘奖励！</div>
+            <button class="modal-close" onclick="closeModal()">确定</button>
+        </div>
+    </div>
+
+    <script>
+        // 创建星空背景
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // 开启宇宙盲盒
+        function openCosmicBox() {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.innerHTML = '<span class="loading"></span> 开启中...';
+            button.disabled = true;
+
+            // 模拟开盒过程
+            setTimeout(() => {
+                const rewards = [
+                    { name: '流行碎片', value: '30积分', emoji: '🌟' },
+                    { name: '行星微光', value: '80积分', emoji: '🌍' },
+                    { name: '恒星能量', value: '160积分', emoji: '⭐' },
+                    { name: '星系核心', value: '320积分', emoji: '🌌' },
+                    { name: '宇宙奇点', value: '1000积分', emoji: '🌠' },
+                    { name: '幸运之神', value: (Math.random() * 100 + 0.05).toFixed(3) + ' SOL', emoji: '🍀' }
+                ];
+
+                const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
+                showModal('宇宙盲盒开启成功！', `${randomReward.emoji} 恭喜获得：${randomReward.name} ${randomReward.value}`);
+                
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 2000);
+        }
+
+        // 开始探月挖宝
+        function startMoonTreasure() {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.innerHTML = '<span class="loading"></span> 挖宝中...';
+            button.disabled = true;
+
+            // 模拟挖宝过程
+            setTimeout(() => {
+                const success = Math.random() > 0.5;
+                if (success) {
+                    const reward = (Math.random() * 5 + 0.1).toFixed(3);
+                    showModal('探月挖宝成功！', `🚀 恭喜发现宝藏：${reward} SOL！`);
+                } else {
+                    showModal('探月挖宝完成', '🌙 这次没有发现宝藏，但您获得了宝贵的探险经验！下次一定会有好运！');
+                }
+                
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 3000);
+        }
+
+        // 切换排行榜标签
+        function switchTab(type) {
+            // 移除所有active类
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 添加active类到当前按钮
+            event.target.classList.add('active');
+            
+            // 这里可以添加加载不同排行榜数据的逻辑
+            console.log('切换到:', type);
+        }
+
+        // 显示弹窗
+        function showModal(title, content) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalContent').innerHTML = content;
+            document.getElementById('resultModal').style.display = 'flex';
+        }
+
+        // 关闭弹窗
+        function closeModal() {
+            document.getElementById('resultModal').style.display = 'none';
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            
+            // 添加页面滚动视差效果
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const stars = document.getElementById('stars');
+                stars.style.transform = `translateY(${scrolled * 0.5}px)`;
+            });
+        });
+
+        // 点击空白处关闭弹窗
+        document.getElementById('resultModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html> 

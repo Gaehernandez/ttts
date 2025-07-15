@@ -1,0 +1,21 @@
+{
+  "package_name": "ttts-website-optimized",
+  "version": "1.0.0",
+  "description": "TTTS网站优化打包版本",
+  "total_files": 37,
+  "file_categories": {
+    ".html": 1,
+    ".css": 2,
+    ".png": 15,
+    ".jpg": 12,
+    ".svg": 1,
+    ".mp4": 2,
+    ".wav": 4
+  },
+  "optimization_notes": [
+    "优先使用压缩版本图片",
+    "排除备份和临时文件",
+    "排除开发相关文件",
+    "保留所有必需的媒体资源"
+  ]
+}
