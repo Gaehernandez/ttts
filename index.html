@@ -974,8 +974,534 @@
 
     <!-- JavaScript Includes -->
     <script src="./assets/js/script.js"></script>
-  </body>
+  
+    <!-- fallback-mechanism-start -->
+    <script type="text/javascript">
+    
+// 资源加载失败时的fallback机制
+(function() {
+    // CDN到本地资源的映射表
+    const fallbackMapping = {
+  "https://i.ibb.co/gFvP0qTd/contact-icon-3-png.png": "assets\\images\\contact-icon-3.png",
+  "https://i.ibb.co/fzjfTpWr/contact-icon-1-png.png": "assets\\images\\contact-icon-1.png",
+  "https://i.ibb.co/HTRSNhB1/contact-icon-2-png.png": "assets\\images\\contact-icon-2.png",
+  "https://i.ibb.co/rGdMP492/hero-shape-1-png.png": "assets\\images\\hero-shape-1.png",
+  "https://i.ibb.co/m54fCgp6/hero-shape-2-png.png": "assets\\images\\hero-shape-2.png",
+  "https://i.ibb.co/v6R4W4K7/tttslogo-png.png": "assets\\images\\tttslogo.png",
+  "https://i.ibb.co/TMSPy2M7/logo3-png.png": "assets\\images\\logo\\logo3.png",
+  "https://i.ibb.co/LLNkSJ0/logo7-png.png": "assets\\images\\logo\\logo7.png",
+  "https://i.ibb.co/Y4WvC1th/logo6-png.png": "assets\\images\\logo\\logo6.png",
+  "https://i.ibb.co/LdmwS2xY/logo2-png.png": "assets\\images\\logo\\logo2.png",
+  "https://i.ibb.co/RmhQ42N/logo4-png.png": "assets\\images\\logo\\logo4.png",
+  "https://i.ibb.co/rG46SftG/logo5-png.png": "assets\\images\\logo\\logo5.png",
+  "https://i.ibb.co/zVRSD9RR/logo1-png.png": "assets\\images\\logo\\logo1.png",
+  "https://i.ibb.co/rGVvbK30/background333-jpg.jpg": "assets\\images\\background333.jpg",
+  "https://i.ibb.co/CsbPBbDD/background111-jpg.jpg": "assets\\images\\background111.jpg",
+  "https://i.ibb.co/6cr02nJm/pet-game-jpg.jpg": "assets\\images\\pet_game.jpg",
+  "https://i.ibb.co/nhGRKq0/background222-jpg.jpg": "assets\\images\\background222.jpg",
+  "https://i.ibb.co/cSrfgqMX/111-png.jpg": "assets\\images\\111.png",
+  "https://i.ibb.co/mCWZGLNK/3-Dmodel-jpg.jpg": "assets\\images\\3Dmodel.jpg",
+  "https://i.ibb.co/ZprqTH3n/function3-1-jpg.jpg": "assets\\images\\function3_1.jpg",
+  "https://i.ibb.co/RxH8WbQ/maproad-jpg.jpg": "assets\\images\\maproad.jpg",
+  "https://i.ibb.co/nqVmzMhS/function3-3-jpg.jpg": "assets\\images\\function3_3.jpg",
+  "https://i.ibb.co/8nwtJvCD/background555-jpg.jpg": "assets\\images\\background555.jpg",
+  "https://i.ibb.co/xKdzwqRG/AIpeitu-png.jpg": "assets\\images\\AIpeitu.png",
+  "https://i.ibb.co/hFQgWBRc/background444-jpg.jpg": "assets\\images\\background444.jpg",
+  "https://i.ibb.co/whHh0tL7/background666-jpg.jpg": "assets\\images\\background666.jpg",
+  "https://i.ibb.co/prbJF5y5/AI-Experiment-jpg.jpg": "assets\\images\\AI_Experiment.jpg",
+  "https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/back.mp4": "assets\\video\\back.mp4",
+  "https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/function3_2.mp4": "assets\\video\\function3_2.mp4",
+  "https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/metamask.svg": "assets\\images\\metamask.svg"
+};
+    
+    // 失败重试计数
+    const retryCount = new Map();
+    
+    // 创建fallback处理函数
+    function handleResourceError(element, event) {
+        const src = element.src || element.href;
+        
+        // 检查是否已经是本地资源
+        if (!src.startsWith('http')) {
+            console.warn('本地资源也加载失败:', src);
+            return;
+        }
+        
+        // 检查重试次数
+        const currentRetries = retryCount.get(src) || 0;
+        if (currentRetries >= 2) {
+            console.error('资源加载失败，已达到最大重试次数:', src);
+            return;
+        }
+        
+        // 查找fallback资源
+        const fallbackSrc = fallbackMapping[src];
+        if (fallbackSrc) {
+            console.log('CDN加载失败，切换到本地资源:', src, '->', fallbackSrc);
+            
+            // 更新重试计数
+            retryCount.set(src, currentRetries + 1);
+            
+            // 切换到本地资源
+            if (element.tagName === 'IMG') {
+                element.src = fallbackSrc;
+            } else if (element.tagName === 'VIDEO') {
+                element.src = fallbackSrc;
+            } else if (element.tagName === 'LINK') {
+                element.href = fallbackSrc;
+            }
+            
+            // 添加fallback标记
+            element.classList.add('fallback-resource');
+            
+            // 显示提示信息
+            showFallbackNotification();
+            
+        } else {
+            console.error('未找到fallback资源:', src);
+        }
+    }
+    
+    // 显示fallback提示信息
+    function showFallbackNotification() {
+        let notification = document.getElementById('fallback-notification');
+        if (!notification) {
+            notification = document.createElement('div');
+            notification.id = 'fallback-notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff9800;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 5px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+                z-index: 10000;
+                font-size: 14px;
+                max-width: 300px;
+                animation: slideIn 0.3s ease-in-out;
+            `;
+            
+            notification.innerHTML = `
+                <div style="margin-bottom: 5px;">⚠️ 网络连接不稳定</div>
+                <div style="font-size: 12px; opacity: 0.9;">部分资源已切换到本地加载</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 5秒后自动隐藏
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
+    }
+    
+    // 添加CSS动画
+    if (!document.getElementById('fallback-styles')) {
+        const style = document.createElement('style');
+        style.id = 'fallback-styles';
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            .fallback-resource {
+                border: 2px dashed #ff9800 !important;
+                position: relative;
+            }
+            
+            .fallback-resource::before {
+                content: "本地资源";
+                position: absolute;
+                top: 0;
+                left: 0;
+                background: #ff9800;
+                color: white;
+                font-size: 10px;
+                padding: 2px 4px;
+                border-radius: 0 0 3px 0;
+                z-index: 1000;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // 为现有元素添加错误处理
+    function addErrorHandlers() {
+        // 处理图片
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = function(event) {
+                handleResourceError(this, event);
+            };
+        });
+        
+        // 处理视频
+        document.querySelectorAll('video').forEach(video => {
+            video.onerror = function(event) {
+                handleResourceError(this, event);
+            };
+        });
+        
+        // 处理CSS文件
+        document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+            link.onerror = function(event) {
+                handleResourceError(this, event);
+            };
+        });
+    }
+    
+    // 监听动态添加的元素
+    function observeNewElements() {
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList') {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) { // 元素节点
+                            if (node.tagName === 'IMG') {
+                                node.onerror = function(event) {
+                                    handleResourceError(this, event);
+                                };
+                            } else if (node.tagName === 'VIDEO') {
+                                node.onerror = function(event) {
+                                    handleResourceError(this, event);
+                                };
+                            } else if (node.tagName === 'LINK' && node.rel === 'stylesheet') {
+                                node.onerror = function(event) {
+                                    handleResourceError(this, event);
+                                };
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+    
+    // 手动切换到本地资源的函数
+    window.switchToLocalResources = function() {
+        let switchCount = 0;
+        
+        // 切换所有图片
+        document.querySelectorAll('img').forEach(img => {
+            const fallbackSrc = fallbackMapping[img.src];
+            if (fallbackSrc && img.src !== fallbackSrc) {
+                img.src = fallbackSrc;
+                img.classList.add('fallback-resource');
+                switchCount++;
+            }
+        });
+        
+        // 切换所有视频
+        document.querySelectorAll('video').forEach(video => {
+            const fallbackSrc = fallbackMapping[video.src];
+            if (fallbackSrc && video.src !== fallbackSrc) {
+                video.src = fallbackSrc;
+                video.classList.add('fallback-resource');
+                switchCount++;
+            }
+        });
+        
+        alert(`已切换 ${switchCount} 个资源到本地加载`);
+    };
+    
+    // 页面加载完成后初始化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            addErrorHandlers();
+            observeNewElements();
+        });
+    } else {
+        addErrorHandlers();
+        observeNewElements();
+    }
+    
+    console.log('🛡️ 资源fallback机制已启用');
+})();
+
+    </script>
+    
+    <!-- 手动切换按钮 -->
+    <div id="resource-switch-panel" style="position: fixed; bottom: 20px; right: 20px; z-index: 10000; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; font-size: 12px;">
+        <button onclick="switchToLocalResources()" style="background: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+            切换到本地资源
+        </button>
+    </div>
+    <!-- fallback-mechanism-end -->
+    
+</body>
   
   
+
+    <!-- fallback-mechanism-start -->
+    <script type="text/javascript">
+    
+// 资源加载失败时的fallback机制
+(function() {
+    // CDN到本地资源的映射表
+    const fallbackMapping = {
+  "https://i.ibb.co/gFvP0qTd/contact-icon-3-png.png": "assets\\images\\contact-icon-3.png",
+  "https://i.ibb.co/fzjfTpWr/contact-icon-1-png.png": "assets\\images\\contact-icon-1.png",
+  "https://i.ibb.co/HTRSNhB1/contact-icon-2-png.png": "assets\\images\\contact-icon-2.png",
+  "https://i.ibb.co/rGdMP492/hero-shape-1-png.png": "assets\\images\\hero-shape-1.png",
+  "https://i.ibb.co/m54fCgp6/hero-shape-2-png.png": "assets\\images\\hero-shape-2.png",
+  "https://i.ibb.co/v6R4W4K7/tttslogo-png.png": "assets\\images\\tttslogo.png",
+  "https://i.ibb.co/TMSPy2M7/logo3-png.png": "assets\\images\\logo\\logo3.png",
+  "https://i.ibb.co/LLNkSJ0/logo7-png.png": "assets\\images\\logo\\logo7.png",
+  "https://i.ibb.co/Y4WvC1th/logo6-png.png": "assets\\images\\logo\\logo6.png",
+  "https://i.ibb.co/LdmwS2xY/logo2-png.png": "assets\\images\\logo\\logo2.png",
+  "https://i.ibb.co/RmhQ42N/logo4-png.png": "assets\\images\\logo\\logo4.png",
+  "https://i.ibb.co/rG46SftG/logo5-png.png": "assets\\images\\logo\\logo5.png",
+  "https://i.ibb.co/zVRSD9RR/logo1-png.png": "assets\\images\\logo\\logo1.png",
+  "https://i.ibb.co/rGVvbK30/background333-jpg.jpg": "assets\\images\\background333.jpg",
+  "https://i.ibb.co/CsbPBbDD/background111-jpg.jpg": "assets\\images\\background111.jpg",
+  "https://i.ibb.co/6cr02nJm/pet-game-jpg.jpg": "assets\\images\\pet_game.jpg",
+  "https://i.ibb.co/nhGRKq0/background222-jpg.jpg": "assets\\images\\background222.jpg",
+  "https://i.ibb.co/cSrfgqMX/111-png.jpg": "assets\\images\\111.png",
+  "https://i.ibb.co/mCWZGLNK/3-Dmodel-jpg.jpg": "assets\\images\\3Dmodel.jpg",
+  "https://i.ibb.co/ZprqTH3n/function3-1-jpg.jpg": "assets\\images\\function3_1.jpg",
+  "https://i.ibb.co/RxH8WbQ/maproad-jpg.jpg": "assets\\images\\maproad.jpg",
+  "https://i.ibb.co/nqVmzMhS/function3-3-jpg.jpg": "assets\\images\\function3_3.jpg",
+  "https://i.ibb.co/8nwtJvCD/background555-jpg.jpg": "assets\\images\\background555.jpg",
+  "https://i.ibb.co/xKdzwqRG/AIpeitu-png.jpg": "assets\\images\\AIpeitu.png",
+  "https://i.ibb.co/hFQgWBRc/background444-jpg.jpg": "assets\\images\\background444.jpg",
+  "https://i.ibb.co/whHh0tL7/background666-jpg.jpg": "assets\\images\\background666.jpg",
+  "https://i.ibb.co/prbJF5y5/AI-Experiment-jpg.jpg": "assets\\images\\AI_Experiment.jpg",
+  "https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/back.mp4": "assets\\video\\back.mp4",
+  "https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/function3_2.mp4": "assets\\video\\function3_2.mp4",
+  "https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/metamask.svg": "assets\\images\\metamask.svg"
+};
+    
+    // 失败重试计数
+    const retryCount = new Map();
+    
+    // 创建fallback处理函数
+    function handleResourceError(element, event) {
+        const src = element.src || element.href;
+        
+        // 检查是否已经是本地资源
+        if (!src.startsWith('http')) {
+            console.warn('本地资源也加载失败:', src);
+            return;
+        }
+        
+        // 检查重试次数
+        const currentRetries = retryCount.get(src) || 0;
+        if (currentRetries >= 2) {
+            console.error('资源加载失败，已达到最大重试次数:', src);
+            return;
+        }
+        
+        // 查找fallback资源
+        const fallbackSrc = fallbackMapping[src];
+        if (fallbackSrc) {
+            console.log('CDN加载失败，切换到本地资源:', src, '->', fallbackSrc);
+            
+            // 更新重试计数
+            retryCount.set(src, currentRetries + 1);
+            
+            // 切换到本地资源
+            if (element.tagName === 'IMG') {
+                element.src = fallbackSrc;
+            } else if (element.tagName === 'VIDEO') {
+                element.src = fallbackSrc;
+            } else if (element.tagName === 'LINK') {
+                element.href = fallbackSrc;
+            }
+            
+            // 添加fallback标记
+            element.classList.add('fallback-resource');
+            
+            // 显示提示信息
+            showFallbackNotification();
+            
+        } else {
+            console.error('未找到fallback资源:', src);
+        }
+    }
+    
+    // 显示fallback提示信息
+    function showFallbackNotification() {
+        let notification = document.getElementById('fallback-notification');
+        if (!notification) {
+            notification = document.createElement('div');
+            notification.id = 'fallback-notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff9800;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 5px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+                z-index: 10000;
+                font-size: 14px;
+                max-width: 300px;
+                animation: slideIn 0.3s ease-in-out;
+            `;
+            
+            notification.innerHTML = `
+                <div style="margin-bottom: 5px;">⚠️ 网络连接不稳定</div>
+                <div style="font-size: 12px; opacity: 0.9;">部分资源已切换到本地加载</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 5秒后自动隐藏
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
+    }
+    
+    // 添加CSS动画
+    if (!document.getElementById('fallback-styles')) {
+        const style = document.createElement('style');
+        style.id = 'fallback-styles';
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            .fallback-resource {
+                border: 2px dashed #ff9800 !important;
+                position: relative;
+            }
+            
+            .fallback-resource::before {
+                content: "本地资源";
+                position: absolute;
+                top: 0;
+                left: 0;
+                background: #ff9800;
+                color: white;
+                font-size: 10px;
+                padding: 2px 4px;
+                border-radius: 0 0 3px 0;
+                z-index: 1000;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // 为现有元素添加错误处理
+    function addErrorHandlers() {
+        // 处理图片
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = function(event) {
+                handleResourceError(this, event);
+            };
+        });
+        
+        // 处理视频
+        document.querySelectorAll('video').forEach(video => {
+            video.onerror = function(event) {
+                handleResourceError(this, event);
+            };
+        });
+        
+        // 处理CSS文件
+        document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+            link.onerror = function(event) {
+                handleResourceError(this, event);
+            };
+        });
+    }
+    
+    // 监听动态添加的元素
+    function observeNewElements() {
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList') {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) { // 元素节点
+                            if (node.tagName === 'IMG') {
+                                node.onerror = function(event) {
+                                    handleResourceError(this, event);
+                                };
+                            } else if (node.tagName === 'VIDEO') {
+                                node.onerror = function(event) {
+                                    handleResourceError(this, event);
+                                };
+                            } else if (node.tagName === 'LINK' && node.rel === 'stylesheet') {
+                                node.onerror = function(event) {
+                                    handleResourceError(this, event);
+                                };
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+    
+    // 手动切换到本地资源的函数
+    window.switchToLocalResources = function() {
+        let switchCount = 0;
+        
+        // 切换所有图片
+        document.querySelectorAll('img').forEach(img => {
+            const fallbackSrc = fallbackMapping[img.src];
+            if (fallbackSrc && img.src !== fallbackSrc) {
+                img.src = fallbackSrc;
+                img.classList.add('fallback-resource');
+                switchCount++;
+            }
+        });
+        
+        // 切换所有视频
+        document.querySelectorAll('video').forEach(video => {
+            const fallbackSrc = fallbackMapping[video.src];
+            if (fallbackSrc && video.src !== fallbackSrc) {
+                video.src = fallbackSrc;
+                video.classList.add('fallback-resource');
+                switchCount++;
+            }
+        });
+        
+        alert(`已切换 ${switchCount} 个资源到本地加载`);
+    };
+    
+    // 页面加载完成后初始化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            addErrorHandlers();
+            observeNewElements();
+        });
+    } else {
+        addErrorHandlers();
+        observeNewElements();
+    }
+    
+    console.log('🛡️ 资源fallback机制已启用');
+})();
+
+    </script>
+    
+    <!-- 手动切换按钮 -->
+    <div id="resource-switch-panel" style="position: fixed; bottom: 20px; right: 20px; z-index: 10000; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; font-size: 12px;">
+        <button onclick="switchToLocalResources()" style="background: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+            切换到本地资源
+        </button>
+    </div>
+    <!-- fallback-mechanism-end -->
+    
 </body>
 </html>
