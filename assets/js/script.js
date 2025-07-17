@@ -3,6 +3,7 @@
 // --- Global Variables ---
 let walletConnected = false;
 let currentAccount = null;
+const API_BASE = 'https://api.tungtungtung.art';
 
 /**
  * PRELOADER - 开屏动画
@@ -14,60 +15,78 @@ window.addEventListener('DOMContentLoaded', function () {
   preloader.classList.add('loaded');
   document.body.classList.add('loaded');
 
-  // 初始化钱包连接功能
-  initWalletConnections();
+  // 只绑定Phantom钱包按钮
+  const phantomBtn = document.getElementById('phantom-connect-btn');
+  if (phantomBtn) {
+    phantomBtn.addEventListener('click', connectPhantomWallet);
+  }
+  const phantomBtnMobile = document.getElementById('phantom-connect-btn-mobile');
+  if (phantomBtnMobile) {
+    phantomBtnMobile.addEventListener('click', connectPhantomWallet);
+  }
+
+  // 绑定断开按钮
+  const logoutBtn = document.getElementById('logout-wallet');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', disconnectPhantomWallet);
+  }
+  const logoutBtnMobile = document.querySelector('.mobile-logout-btn');
+  if (logoutBtnMobile) {
+    logoutBtnMobile.addEventListener('click', disconnectPhantomWallet);
+  }
 
   // 检查是否已有连接的钱包
-  checkExistingWalletConnection();
+  checkExistingPhantomConnection();
 });
 
-/**
- * 初始化钱包连接事件监听器
- */
-function initWalletConnections() {
-  // 绑定MetaMask连接事件
-  const metamaskOption = document.querySelector('[data-wallet="metamask"]');
-  if (metamaskOption) {
-    metamaskOption.addEventListener('click', (e) => {
-      e.preventDefault();
-      connectMetaMask();
-    });
-  }
-
-  // 绑定OKX钱包连接事件
-  const okxOption = document.querySelector('[data-wallet="okx"]');
-  if (okxOption) {
-    okxOption.addEventListener('click', (e) => {
-      e.preventDefault();
-      connectOKXWallet();
-    });
-  }
-}
-
-/**
- * 检查是否已有连接的钱包
- */
-function checkExistingWalletConnection() {
-  const connectedWallet = localStorage.getItem('connectedWallet');
+function checkExistingPhantomConnection() {
+  const walletType = localStorage.getItem('connectedWallet');
   const walletAddress = localStorage.getItem('walletAddress');
-
-  if (connectedWallet && walletAddress) {
-    updateWalletUI(connectedWallet, walletAddress);
-    console.log(`Existing wallet connection found: ${connectedWallet}`);
+  if (walletType === 'phantom' && walletAddress) {
+    walletConnected = true;
+    currentAccount = walletAddress;
+    updatePhantomWalletUI(walletAddress);
+  } else {
+    resetWalletUI();
   }
 }
 
-/**
- * 批量事件绑定工具函数
- * @param {NodeList|Array} elements - 需要绑定事件的元素集合
- * @param {string} eventType - 事件类型，如'click'、'mouseover'等
- * @param {Function} callback - 事件处理函数
- */
-const addEventOnElements = function (elements, eventType, callback) {
-  for (let i = 0, len = elements.length; i < len; i++) {
-    elements[i].addEventListener(eventType, callback);
+function updatePhantomWalletUI(address) {
+  const connectText = document.getElementById('wallet-connect-text');
+  const addressDisplay = document.getElementById('wallet-address-display');
+  const logoutBtn = document.getElementById('logout-wallet');
+  if (connectText && addressDisplay && logoutBtn) {
+    connectText.style.display = 'none';
+    addressDisplay.style.display = 'inline';
+    addressDisplay.textContent = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+    logoutBtn.style.display = 'inline-block';
   }
-};
+  // 移动端
+  const mobileStatus = document.querySelector('.mobile-connected-status');
+  const mobileAddr = document.querySelector('.mobile-wallet-address');
+  if (mobileStatus && mobileAddr) {
+    mobileStatus.style.display = 'block';
+    mobileAddr.textContent = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+  }
+}
+
+function resetWalletUI() {
+  const connectText = document.getElementById('wallet-connect-text');
+  const addressDisplay = document.getElementById('wallet-address-display');
+  const logoutBtn = document.getElementById('logout-wallet');
+  if (connectText && addressDisplay && logoutBtn) {
+    connectText.style.display = 'inline';
+    addressDisplay.style.display = 'none';
+    logoutBtn.style.display = 'none';
+  }
+  // 移动端
+  const mobileStatus = document.querySelector('.mobile-connected-status');
+  const mobileAddr = document.querySelector('.mobile-wallet-address');
+  if (mobileStatus && mobileAddr) {
+    mobileStatus.style.display = 'none';
+    mobileAddr.textContent = '';
+  }
+}
 
 /**
  * 移动端导航栏控制
@@ -80,11 +99,11 @@ const navLinks = document.querySelectorAll('[data-nav-link]');
 const overlay = document.querySelector('[data-overlay]');
 
 // 点击导航切换按钮时的处理
-addEventOnElements(navTogglers, 'click', function () {
-  navbar.classList.toggle('active');
-  overlay.classList.toggle('active');
-  document.body.classList.toggle('nav-active');
-});
+const addEventOnElements = function (elements, eventType, callback) {
+  for (let i = 0, len = elements.length; i < len; i++) {
+    elements[i].addEventListener(eventType, callback);
+  }
+};
 
 // 点击导航链接时的处理（关闭导航菜单）
 addEventOnElements(navLinks, 'click', function () {
@@ -225,7 +244,7 @@ function generateImage() {
   document.getElementById('imageLoading').style.display = 'block';
   document.getElementById('imageError').style.display = 'none';
 
-  fetch('https://api.tungtungtung.art/generate', {
+  fetch(`${API_BASE}/generate`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -361,7 +380,7 @@ function generateVideo() {
   document.getElementById('videoError').style.display = 'none';
 
   // Call local server API to submit video generation task
-  fetch('https://api.tungtungtung.art/generate_video', {
+  fetch(`${API_BASE}/generate_video`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -420,7 +439,7 @@ function checkVideoTaskStatus(taskId, btn) {
 
   // Create polling function
   const pollStatus = () => {
-    fetch(`https://api.tungtungtung.art/task/${taskId}`, {
+    fetch(`${API_BASE}/task/${taskId}`, {
       credentials: 'include',
     })
       .then((response) => response.json())
@@ -518,7 +537,7 @@ function generate3DModel() {
     'What can AI help us with?';
 
   // 调用本地服务器API
-  fetch('https://api.tungtungtung.art/generate_qwen', {
+  fetch(`${API_BASE}/generate_qwen`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -732,7 +751,7 @@ function streamChatAudio(question, voice) {
 
   // 连接服务器发送的事件流
   const source = new EventSource(
-    `https://api.tungtungtung.art/generate_chat_audio?${params}`,
+    `${API_BASE}/generate_chat_audio?${params}`,
     { withCredentials: true }
   );
 
@@ -835,7 +854,7 @@ function streamChatAudio(question, voice) {
  * @param {string} voice - 选择的语音
  */
 function fetchChatAudio(question, voice) {
-  fetch('https://api.tungtungtung.art/generate_chat_audio', {
+  fetch(`${API_BASE}/generate_chat_audio`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -883,7 +902,7 @@ function checkChatStatus(taskId, question) {
 
   // 轮询任务状态
   const checkInterval = setInterval(() => {
-    fetch(`https://api.tungtungtung.art/task/${taskId}`)
+    fetch(`${API_BASE}/task/${taskId}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'completed') {
@@ -1054,20 +1073,131 @@ async function connectOKXWallet() {
 }
 
 /**
+ * 连接Phantom（Solana）钱包
+ */
+async function connectPhantomWallet() {
+  try {
+    if (!window.solana || !window.solana.isPhantom) {
+      alert('请安装 Phantom 钱包');
+      window.open('https://phantom.app/', '_blank');
+      return;
+    }
+
+    // 请求连接钱包
+    const response = await window.solana.connect();
+    const publicKey = response.publicKey.toString();
+    
+    // 获取 nonce
+    const nonceResponse = await fetch(`${API_BASE}/get_nonce`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        wallet_address: publicKey
+      })
+    });
+    const nonceData = await nonceResponse.json();
+    if (!nonceResponse.ok) {
+      throw new Error(nonceData.error || '获取 nonce 失败');
+    }
+
+    // 构造签名消息
+    const message = `Please sign this message to verify your identity.\n\nNonce: ${nonceData.nonce}`;
+    const encodedMessage = new TextEncoder().encode(message);
+    const signedMessage = await window.solana.signMessage(encodedMessage, 'utf8');
+    const signature = btoa(String.fromCharCode(...signedMessage.signature));
+
+    // 获取邀请码（如果有）
+    const inviteCode = sessionStorage.getItem('invite_code');
+
+    // 验证签名
+    const verifyResponse = await fetch(`${API_BASE}/verify_signature`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        wallet_address: publicKey,
+        signature: signature,
+        message: message,
+        invite_code: inviteCode
+      })
+    });
+    const verifyData = await verifyResponse.json();
+    if (!verifyResponse.ok) {
+      throw new Error(verifyData.error || '签名验证失败');
+    }
+
+    // 连接成功
+    walletConnected = true;
+    currentAccount = publicKey;
+    onWalletConnected('phantom', publicKey);
+
+    // 清除已使用的邀请码
+    if (inviteCode) {
+      sessionStorage.removeItem('invite_code');
+    }
+
+    // 显示积分奖励信息
+    if (verifyData.points_earned > 0) {
+      alert(`${verifyData.message} 当前总积分: ${verifyData.total_points}`);
+    } else {
+      alert('Phantom 钱包连接成功！');
+    }
+  } catch (error) {
+    console.error('连接Phantom钱包失败:', error);
+    alert(`连接失败: ${error.message}`);
+  }
+}
+
+/**
+ * 断开Phantom钱包连接
+ */
+async function disconnectPhantomWallet() {
+  try {
+    if (window.solana && window.solana.isPhantom) {
+      await window.solana.disconnect();
+    }
+    walletConnected = false;
+    currentAccount = null;
+    resetWalletUI();
+    alert('已断开Phantom钱包连接');
+  } catch (error) {
+    console.error('断开Phantom钱包失败:', error);
+    alert(`断开连接失败: ${error.message}`);
+  }
+}
+
+/**
  * 钱包连接成功后的回调函数
  * @param {string} walletType - 钱包类型 ('metamask' 或 'okx')
  * @param {string} address - 钱包地址
  */
 function onWalletConnected(walletType, address) {
-  // 存储连接信息
   localStorage.setItem('connectedWallet', walletType);
   localStorage.setItem('walletAddress', address);
-
-  // 更新UI显示
   updateWalletUI(walletType, address);
-
   // 这里可以添加其他连接成功后的逻辑
   console.log(`Wallet connected: ${walletType}, Address: ${address}`);
+  // UI显示
+  const walletBtn = document.querySelector('.wallet-main-btn');
+  if (walletBtn) {
+    const shortAddress = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+    walletBtn.innerHTML = `<span>🔗 ${shortAddress}</span>`;
+  }
+  // 显示登出按钮
+  const logoutBtn = document.getElementById('logout-wallet');
+  if (logoutBtn) {
+    logoutBtn.style.display = 'inline-block';
+    logoutBtn.onclick = () => {
+      if (walletType === 'phantom') {
+        disconnectPhantomWallet();
+      } else {
+        disconnectWallet();
+      }
+    };
+  }
 }
 
 /**
@@ -1190,484 +1320,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // You can add other initialization logic here
   // For example: check API status, load user preferences, etc.
-});
-
-// --- Wallet Connection and UI Management ---
-document.addEventListener('DOMContentLoaded', () => {
-  'use strict';
-
-  // --- Global Variables (already declared at top of file) ---
-  // currentAccount and walletConnected are now global variables
-
-  // --- DOM Elements ---
-  const navbar = document.querySelector('[data-navbar]');
-  const navTogglers = document.querySelectorAll('[data-nav-toggler]');
-  const navLinks = document.querySelectorAll('[data-nav-link]');
-  const overlay = document.querySelector('[data-overlay]');
-  const header = document.querySelector('[data-header]');
-  const backTopBtn = document.querySelector('[data-back-top-btn]');
-  const walletModal = document.getElementById('wallet-modal');
-  const closeModalBtn = document.querySelector('.close-modal');
-  const signInBtn = document.getElementById('sign-in-wallet');
-  const cursorDot = document.querySelector('[data-cursor]');
-  const cursorOutline = document.querySelector('.cursor-outline');
-
-  // Mobile wallet elements
-  const mobileWalletBtn = document.querySelector('.mobile-wallet-btn');
-  const mobileWalletSidebar = document.querySelector('.mobile-wallet-sidebar');
-  const mobileWalletClose = document.querySelector('.wallet-close-btn');
-  const walletOverlay = document.querySelector('.wallet-overlay');
-  const mobileWalletOptions = document.querySelectorAll(
-    '.mobile-wallet-sidebar .wallet-option'
-  );
-  const mobileLogoutBtn = document.querySelector('.mobile-logout-btn');
-
-  // Mobile menu elements
-  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-  const mobileMenuSidebar = document.querySelector('.mobile-menu-sidebar');
-  const mobileMenuClose = document.querySelector('.menu-close-btn');
-  const menuOverlay = document.querySelector('.menu-overlay');
-  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-
-  // --- Original UI Interactivity ---
-  const addEventOnElem = (elem, type, callback) => {
-    if (!elem) return;
-    if (elem.length > 1) {
-      for (let i = 0; i < elem.length; i++) {
-        elem[i].addEventListener(type, callback);
-      }
-    } else {
-      elem.addEventListener(type, callback);
-    }
-  };
-
-  const toggleNavbar = () => {
-    if (navbar) navbar.classList.toggle('active');
-    if (overlay) overlay.classList.toggle('active');
-  };
-
-  const closeNavbar = () => {
-    if (navbar) navbar.classList.remove('active');
-    if (overlay) overlay.classList.remove('active');
-  };
-
-  // Mobile wallet sidebar functions
-  const openMobileWalletSidebar = () => {
-    if (mobileWalletSidebar) mobileWalletSidebar.classList.add('active');
-    if (walletOverlay) walletOverlay.classList.add('active');
-  };
-
-  const closeMobileWalletSidebar = () => {
-    if (mobileWalletSidebar) mobileWalletSidebar.classList.remove('active');
-    if (walletOverlay) walletOverlay.classList.remove('active');
-  };
-
-  // Mobile menu sidebar functions
-  const openMobileMenuSidebar = () => {
-    if (mobileMenuSidebar) mobileMenuSidebar.classList.add('active');
-    if (menuOverlay) menuOverlay.classList.add('active');
-  };
-
-  const closeMobileMenuSidebar = () => {
-    if (mobileMenuSidebar) mobileMenuSidebar.classList.remove('active');
-    if (menuOverlay) menuOverlay.classList.remove('active');
-  };
-
-  const activeHeader = () => {
-    if (header) {
-      if (window.scrollY > 100) {
-        header.classList.add('active');
-        if (backTopBtn) backTopBtn.classList.add('active');
-      } else {
-        header.classList.remove('active');
-        if (backTopBtn) backTopBtn.classList.remove('active');
-      }
-    }
-  };
-
-  // --- Wallet Logic ---
-  const setupEventListeners = () => {
-    addEventOnElem(navTogglers, 'click', toggleNavbar);
-    addEventOnElem(navLinks, 'click', closeNavbar);
-    addEventOnElem(window, 'scroll', activeHeader);
-
-    // Mobile wallet sidebar event listeners
-    if (mobileWalletBtn)
-      mobileWalletBtn.addEventListener('click', openMobileWalletSidebar);
-    if (mobileWalletClose)
-      mobileWalletClose.addEventListener('click', closeMobileWalletSidebar);
-    if (walletOverlay)
-      walletOverlay.addEventListener('click', closeMobileWalletSidebar);
-
-    // Mobile menu sidebar event listeners
-    if (mobileMenuBtn)
-      mobileMenuBtn.addEventListener('click', openMobileMenuSidebar);
-    if (mobileMenuClose)
-      mobileMenuClose.addEventListener('click', closeMobileMenuSidebar);
-    if (menuOverlay)
-      menuOverlay.addEventListener('click', closeMobileMenuSidebar);
-
-    // Mobile navigation links
-    mobileNavLinks.forEach((link) => {
-      link.addEventListener('click', () => {
-        closeMobileMenuSidebar();
-      });
-    });
-
-    // Mobile wallet options
-    mobileWalletOptions.forEach((option) => {
-      option.addEventListener('click', (e) => {
-        e.preventDefault();
-        const walletType = option.getAttribute('data-wallet');
-        if (walletType === 'metamask') {
-          connectMetaMask();
-        } else if (walletType === 'okx') {
-          connectOKXWallet();
-        }
-        closeMobileWalletSidebar();
-      });
-    });
-
-    if (mobileLogoutBtn)
-      mobileLogoutBtn.addEventListener('click', () => {
-        logoutWallet();
-        closeMobileWalletSidebar();
-      });
-
-    const logoutBtn = document.getElementById('logout-wallet');
-
-    // 钱包选项的事件监听器已在initWalletConnections中设置，这里不需要重复绑定
-
-    if (logoutBtn) logoutBtn.addEventListener('click', logoutWallet);
-
-    // Initially, if not connected, show dropdown on hover
-    const walletContainer = document.querySelector('.wallet-container');
-    const dropdown = walletContainer.querySelector('.wallet-dropdown');
-    walletContainer.addEventListener('mouseenter', () => {
-      if (!walletConnected) {
-        dropdown.style.display = 'block';
-      }
-    });
-    walletContainer.addEventListener('mouseleave', () => {
-      dropdown.style.display = 'none';
-    });
-
-    document.querySelectorAll('.connect-wallet-main-btn').forEach((btn) => {
-      btn.addEventListener('click', connectWallet);
-    });
-
-    if (signInBtn)
-      signInBtn.addEventListener('click', signMessageForVerification);
-    if (closeModalBtn)
-      closeModalBtn.addEventListener('click', () => {
-        if (walletModal) walletModal.style.display = 'none';
-      });
-
-    window.addEventListener('click', (event) => {
-      if (walletModal && event.target == walletModal)
-        walletModal.style.display = 'none';
-    });
-
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', () => {
-        console.log('Account switched');
-        logoutWallet();
-      });
-    }
-
-    if (cursorDot && cursorOutline) {
-      window.addEventListener('mousemove', function (e) {
-        const posX = e.clientX;
-        const posY = e.clientY;
-
-        cursorDot.style.left = `${posX}px`;
-        cursorDot.style.top = `${posY}px`;
-
-        cursorOutline.animate(
-          {
-            left: `${posX}px`,
-            top: `${posY}px`,
-          },
-          { duration: 500, fill: 'forwards' }
-        );
-      });
-    }
-  };
-
-  // --- Centralized API Fetcher ---
-  const fetchWithCredentials = async (url, options = {}) => {
-    const defaultOptions = {
-      credentials: 'include', // Ensures all requests carry cookies
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-    };
-
-    const finalOptions = { ...options, ...defaultOptions };
-
-    if (finalOptions.body && typeof finalOptions.body !== 'string') {
-      finalOptions.body = JSON.stringify(finalOptions.body);
-    }
-
-    return fetch(url, finalOptions);
-  };
-
-  // 启用需要登录的按钮
-  const enableButtons = () => {
-    const buttons = [
-      document.querySelector('button[onclick="generateImage()"]'),
-      document.querySelector('button[onclick="generateVideo()"]'),
-      document.querySelector('button[onclick="generateChatAudio()"]'),
-    ];
-
-    buttons.forEach((btn) => {
-      if (btn) {
-        btn.disabled = false;
-        btn.style.opacity = '1';
-        btn.style.cursor = 'pointer';
-        btn.removeAttribute('title');
-      }
-    });
-  };
-
-  // 禁用需要登录的按钮
-  const disableButtons = () => {
-    const buttons = [
-      document.querySelector('button[onclick="generateImage()"]'),
-      document.querySelector('button[onclick="generateVideo()"]'),
-      document.querySelector('button[onclick="generateChatAudio()"]'),
-    ];
-
-    buttons.forEach((btn) => {
-      if (btn) {
-        btn.disabled = true;
-        btn.style.opacity = '0.5';
-        btn.style.cursor = 'not-allowed';
-        btn.title =
-          'Please connect your wallet and verify your identity before using this feature';
-      }
-    });
-  };
-
-  const checkSession = async () => {
-    try {
-      const response = await fetchWithCredentials(
-        'https://api.tungtungtung.art/check_auth',
-        { method: 'GET' }
-      );
-      const data = await response.json();
-      if (data.authenticated && data.wallet_address) {
-        console.log('User is logged in:', data.wallet_address);
-        currentAccount = data.wallet_address;
-        walletConnected = true;
-        updateWalletUI(data.wallet_address, true);
-        enableButtons();
-      } else {
-        console.log('User is not logged in');
-        resetWalletUI();
-        disableButtons();
-      }
-    } catch (error) {
-      console.error('Failed to check session status:', error);
-      resetWalletUI();
-      disableButtons();
-    }
-  };
-
-  const connectWallet = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        const accounts = await window.ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-        currentAccount = accounts[0];
-        console.log('Wallet connected:', currentAccount);
-        if (walletModal) walletModal.style.display = 'block';
-      } catch (error) {
-        console.error('Failed to connect wallet:', error);
-        alert('Failed to connect wallet: ' + error.message);
-      }
-    } else {
-      alert('MetaMask not detected. Please install it to continue.');
-    }
-  };
-
-  const signMessageForVerification = async () => {
-    if (!currentAccount) {
-      alert('Please connect your wallet first.');
-      return;
-    }
-
-    try {
-      // 1. Get Nonce from backend
-      const nonceResponse = await fetchWithCredentials(
-        'https://api.tungtungtung.art/get_nonce',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ wallet_address: currentAccount }),
-        }
-      );
-
-      if (!nonceResponse.ok) {
-        throw new Error('Failed to get Nonce');
-      }
-
-      const nonceData = await nonceResponse.json();
-      const nonce = nonceData.nonce;
-
-      // 2. Create and sign a message containing the Nonce
-      const message = `Welcome to Tung Tung Tung Sahur! Please sign to verify your wallet address.\n\nNonce: ${nonce}`;
-      const signature = await window.ethereum.request({
-        method: 'personal_sign',
-        params: [message, currentAccount],
-      });
-
-      // 3. Send signature and message to backend for verification
-      await verifySignature(currentAccount, signature, message);
-    } catch (error) {
-      console.error('Signature or verification process failed:', error);
-      alert('Signature or verification process failed: ' + error.message);
-    }
-  };
-
-  const verifySignature = async (address, signature, message) => {
-    try {
-      const response = await fetchWithCredentials(
-        'https://api.tungtungtung.art/verify_signature',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ wallet_address: address, signature, message }),
-          credentials: 'include',
-        }
-      );
-      const data = await response.json();
-      if (data.authenticated) {
-        walletConnected = true;
-        updateWalletUI(address, true);
-        enableButtons();
-        if (walletModal) walletModal.style.display = 'none';
-        console.log('Wallet verification successful');
-        // alert('钱包连接并验证成功！');
-      } else {
-        console.error('Verification failed:', data.error);
-        alert('Verification failed: ' + data.error);
-      }
-    } catch (error) {
-      console.error('Verification request failed:', error);
-      alert('Verification request failed: ' + error.message);
-    }
-  };
-
-  const logoutWallet = async () => {
-    try {
-      await fetchWithCredentials('https://api.tungtungtung.art/logout', {
-        method: 'POST',
-      });
-    } catch (error) {
-      console.error('Logout request failed:', error);
-    } finally {
-      resetWalletUI();
-      disableButtons();
-      console.log('Logged out');
-    }
-  };
-
-  const updateWalletUI = (address, isVerified) => {
-    const connectText = document.getElementById('wallet-connect-text');
-    const addressDisplay = document.getElementById('wallet-address-display');
-    const logoutBtn = document.getElementById('logout-wallet');
-    const dropdown = document.querySelector('.wallet-dropdown');
-    const walletContainer = document.querySelector('.wallet-container');
-
-    // Mobile wallet UI elements
-    const mobileWalletBtnText = document.querySelector(
-      '.mobile-wallet-btn-text'
-    );
-    const mobileConnectedStatus = document.querySelector(
-      '.mobile-connected-status'
-    );
-    const mobileWalletAddress = document.querySelector(
-      '.mobile-wallet-address'
-    );
-    const mobileConnectOptions = document.querySelector(
-      '.mobile-connect-options'
-    );
-
-    connectText.style.display = 'none';
-    dropdown.style.display = 'none'; // Hide dropdown menu
-    walletContainer.onmouseenter = null; // Remove hover event
-    walletContainer.onmouseleave = null;
-
-    addressDisplay.textContent = `${address.substring(
-      0,
-      6
-    )}...${address.substring(address.length - 4)}`;
-    addressDisplay.style.display = 'inline';
-    logoutBtn.style.display = 'inline-flex';
-
-    // Update mobile wallet UI
-    if (mobileWalletBtnText) mobileWalletBtnText.textContent = 'Wallet';
-    if (mobileConnectedStatus) {
-      mobileConnectedStatus.style.display = 'block';
-      if (mobileWalletAddress) {
-        mobileWalletAddress.textContent = `${address.substring(
-          0,
-          6
-        )}...${address.substring(address.length - 4)}`;
-      }
-    }
-    if (mobileConnectOptions) mobileConnectOptions.style.display = 'none';
-  };
-
-  const resetWalletUI = () => {
-    currentAccount = null;
-    walletConnected = false;
-
-    const connectText = document.getElementById('wallet-connect-text');
-    const addressDisplay = document.getElementById('wallet-address-display');
-    const logoutBtn = document.getElementById('logout-wallet');
-    const dropdown = document.querySelector('.wallet-dropdown');
-    const walletContainer = document.querySelector('.wallet-container');
-
-    // Mobile wallet UI elements
-    const mobileWalletBtnText = document.querySelector(
-      '.mobile-wallet-btn-text'
-    );
-    const mobileConnectedStatus = document.querySelector(
-      '.mobile-connected-status'
-    );
-    const mobileConnectOptions = document.querySelector(
-      '.mobile-connect-options'
-    );
-
-    connectText.style.display = 'inline';
-    addressDisplay.style.display = 'none';
-    logoutBtn.style.display = 'none';
-
-    // Reset mobile wallet UI
-    if (mobileWalletBtnText) mobileWalletBtnText.textContent = 'Connect Wallet';
-    if (mobileConnectedStatus) mobileConnectedStatus.style.display = 'none';
-    if (mobileConnectOptions) mobileConnectOptions.style.display = 'block';
-
-    // 重新绑定悬停事件
-    walletContainer.addEventListener('mouseenter', () => {
-      if (!walletConnected) {
-        dropdown.style.display = 'block';
-      }
-    });
-    walletContainer.addEventListener('mouseleave', () => {
-      dropdown.style.display = 'none';
-    });
-  };
-
-  // --- Initialization ---
-  const initialize = async () => {
-    setupEventListeners();
-    await checkSession();
-  };
-
-  initialize();
 });

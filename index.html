@@ -82,14 +82,14 @@
         const localPath = cdnToLocal[cdnUrl];
         
         if (localPath && cdnUrl.includes('i.ibb.co') && !img.dataset.fallbackAttempted) {
-            // 设置3秒超时，如果图片还没加载完成则切换到本地
+            // 设置6秒超时，如果图片还没加载完成则切换到本地
             const timeoutId = setTimeout(() => {
                 if (!img.complete && !img.dataset.fallbackAttempted) {
                     img.dataset.fallbackAttempted = 'true';
                     img.src = localPath;
                     console.log('图片CDN超时，已切换到本地资源:', localPath);
                 }
-            }, 3000);
+            }, 6000);
             
             img.addEventListener('load', () => clearTimeout(timeoutId));
             img.addEventListener('error', () => clearTimeout(timeoutId));
@@ -122,17 +122,17 @@
                     const localPath = cdnToLocal[cdnUrl];
                     
                     if (localPath && !element.dataset.backgroundFallbackAttempted) {
-                        // 创建测试图片来检查CDN是否可用 - 减少超时时间
+                        // 创建测试图片来检查CDN是否可用 - 延长超时时间
                         const testImg = new Image();
                         
-                        // 设置2秒超时，超时自动切换到本地资源
+                        // 设置4秒超时，超时自动切换到本地资源
                         const timeoutId = setTimeout(() => {
                             if (!element.dataset.backgroundFallbackAttempted) {
                                 element.dataset.backgroundFallbackAttempted = 'true';
                                 element.style.backgroundImage = `url(${localPath})`;
                                 console.log('背景图片CDN超时，已切换到本地资源:', localPath);
                             }
-                        }, 2000);
+                        }, 4000);
                         
                         testImg.onload = function() {
                             clearTimeout(timeoutId);
@@ -341,21 +341,11 @@
 
             <li class="wallet-section">
               <div class="wallet-container">
-                <button class="wallet-main-btn">
+                <button class="wallet-main-btn" id="phantom-connect-btn">
                   <span id="wallet-connect-text">Connect Wallet</span>
                   <span id="wallet-address-display" style="display: none;"></span>
                 </button>
-                <div class="wallet-dropdown">
-                  <a href="#" class="wallet-option" data-wallet="metamask">
-                    <img src="https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/metamask.svg" alt="MetaMask" class="wallet-icon" / loading="lazy">
-                    MetaMask
-                  </a>
-                  <a href="#" class="wallet-option" data-wallet="okx">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMyIgeT0iMyIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8cmVjdCB4PSIxNSIgeT0iMyIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8cmVjdCB4PSI5IiB5PSI5IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjMDAwIi8+CjxyZWN0IHg9IjMiIHk9IjE1IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjMDAwIi8+CjxyZWN0IHg9IjE1IiB5PSIxNSIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8L3N2Zz4K" alt="OKX Wallet" class="wallet-icon" / loading="lazy">
-                    OKX Wallet
-                  </a>
-                </div>
-                <button id="logout-wallet" class="btn btn-secondary" style="display: none;">Logout</button>
+                <button id="logout-wallet" class="btn btn-secondary" style="display: none; margin-left: 10px;">Disconnect</button>
               </div>
             </li>
             </li>
@@ -398,24 +388,19 @@
               </button>
             </div>
             <div class="wallet-options">
-              <button class="wallet-option" data-wallet="metamask">
-                <img src="https://raw.githubusercontent.com/Gaehernandez/ttts/main/assets/metamask.svg" alt="MetaMask" class="wallet-icon" / loading="lazy">
-                <span>MetaMask</span>
-              </button>
-              <button class="wallet-option" data-wallet="okx">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMyIgeT0iMyIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8cmVjdCB4PSIxNSIgeT0iMyIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8cmVjdCB4PSI5IiB5PSI5IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjMDAwIi8+CjxyZWN0IHg9IjMiIHk9IjE1IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjMDAwIi8+CjxyZWN0IHg9IjE1IiB5PSIxNSIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iIzAwMCIvPgo8L3N2Zz4K" alt="OKX Wallet" class="wallet-icon" / loading="lazy">
-                <span>OKX Wallet</span>
+              <button class="wallet-option" id="phantom-connect-btn-mobile">
+                <span>Connect Wallet</span>
               </button>
             </div>
             <div class="mobile-wallet-status">
               <div class="mobile-connect-options">
-                <p>Please select a wallet to connect</p>
+                <p>Please click the button above to connect Phantom Wallet</p>
               </div>
               <div class="mobile-connected-status" style="display: none;">
                 <div class="connected-wallet-info">
                   <span class="mobile-wallet-address"></span>
                 </div>
-                <button class="mobile-logout-btn">Logout</button>
+                <button class="mobile-logout-btn">Disconnect</button>
               </div>
             </div>
           </div>
@@ -843,7 +828,7 @@
                   <div class="ecosystem-item">
                     <div class="ecosystem-box">
                       <img
-                        src="assets/images/3Dmodel.jpg"
+                        src="https://pic1.imgdb.cn/item/687739ef58cb8da5c8b77c4b.jpg"
                         alt="AI 3D Model Generation"
                         class="ecosystem-image"
                       / loading="lazy">
@@ -862,7 +847,7 @@
                   <div class="ecosystem-item">
                     <div class="ecosystem-box">
                       <img
-                        src="assets/images/pet_game.jpg"
+                        src="https://pic1.imgdb.cn/item/68773a1f58cb8da5c8b77fc0.jpg"
                         alt="AI Pet Digital Life"
                         class="ecosystem-image"
                       / loading="lazy">
@@ -881,7 +866,7 @@
                   <div class="ecosystem-item">
                     <div class="ecosystem-box">
                       <img
-                        src="assets/images/AI_Experiment.jpg"
+                        src="https://pic1.imgdb.cn/item/687739f658cb8da5c8b77cd9.jpg"
                         alt="AI Generator Digital Avatar"
                         class="ecosystem-image"
                       / loading="lazy">
